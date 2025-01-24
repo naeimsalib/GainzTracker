@@ -22,11 +22,13 @@
 .footer-logo {
   font-weight: bold;
   font-size: 1.5rem;
-  text-align: left;
+  text-align: right;
 }
 
 .footer-links {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .footer-links h3 {
@@ -52,11 +54,11 @@
 .footer-line {
   width: 100%;
   border: none;
-  border-top: 1px solid gray;
+  border-top: 2px solid gray;
   margin: 10px 0;
 }
 
 .footer-copyright {
   font-size: 0.9rem;
-  color: black;
+  color: rgb(54, 52, 52);
 }
