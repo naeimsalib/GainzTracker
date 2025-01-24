@@ -1,3 +1,9 @@
-export default function HomePage() {
-  return <h1>Home Page</h1>;
+import HomeContainer from '../../components/HomeContainer/HomeContainer';
+
+export default function HomePage({ user }) {
+  return (
+    <div>
+      <HomeContainer user={user} />
+    </div>
+  );
 }

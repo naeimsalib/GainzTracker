@@ -17,7 +17,7 @@ export default function App() {
 
   function handleLogin(userData) {
     setUser(userData);
-    navigate('/'); // ✅ Redirect to Home Page after login
+    navigate('/'); // Redirect to Home Page after login
   }
 
   return (
@@ -25,11 +25,9 @@ export default function App() {
       <NavBar user={user} setUser={setUser} />
       <section id="main-section">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage user={user} />} />
           <Route path="/signup" element={<SignUpPage setUser={handleLogin} />} />
           <Route path="/login" element={<LogInPage setUser={handleLogin} />} />
-          
-          {/* Protected Routes (Only Accessible After Login) */}
           {user && (
             <>
               <Route path="/workouts" element={<WorkoutsPage />} />
