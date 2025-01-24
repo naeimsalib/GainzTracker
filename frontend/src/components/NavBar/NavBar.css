@@ -8,6 +8,15 @@
   width: 100%;
 }
 
+.welcome-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  margin-top: 1%;
+  margin-left: 10px;
+}
+
+
 .navbar-left h2 {
   font-weight: bold;
   font-size: 1.5rem;

@@ -25,9 +25,10 @@ export default function NavBar({ user, setUser }) {
           <>
             <NavLink to="/" className="nav-btn">Home</NavLink>
             <NavLink to="/workouts" className="nav-btn">Workouts</NavLink>
-            <NavLink to="/exercises" className="nav-btn">Exercises</NavLink> {/* ✅ Added Exercises */}
+            <NavLink to="/exercises" className="nav-btn">Exercises</NavLink>
             <NavLink to="/community" className="nav-btn">Community</NavLink>
             <button onClick={handleLogOut} className="nav-btn logout">Log Out</button>
+            <span className="welcome-message">Welcome, {user.name}</span>
           </>
         ) : (
           <>
