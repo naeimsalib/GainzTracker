@@ -10,6 +10,7 @@ import ExercisesPage from '../ExercisesPage/ExercisesPage';
 import CommunityPage from '../CommunityPage/CommunityPage';
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
+import AddExercisePage from '../AddExercisePage/AddExercisePage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -32,6 +33,8 @@ export default function App() {
             <>
               <Route path="/workouts" element={<WorkoutsPage />} />
               <Route path="/exercises" element={<ExercisesPage />} />
+              <Route path="/exercises" element={<ExercisesPage />} />
+              <Route path="/exercises/new" element={<AddExercisePage />} />
               <Route path="/community" element={<CommunityPage />} />
             </>
           )}
