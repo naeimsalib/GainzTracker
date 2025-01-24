@@ -1,0 +1,27 @@
+.home-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 50%;
+    margin: 40px auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quote-text {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .date-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  .home-image {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+  }
+  
