@@ -1,37 +1,45 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom'; // ✅ Fixed Import
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { getUser } from '../../services/authService';
 import './App.css';
 import HomePage from '../HomePage/HomePage';
-import PostListPage from '../PostListPage/PostListPage';
-import NewPostPage from '../NewPostPage/NewPostPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import LogInPage from '../LogInPage/LogInPage';
+import WorkoutsPage from '../WorkoutsPage/WorkoutsPage';
+import ExercisesPage from '../ExercisesPage/ExercisesPage';
+import CommunityPage from '../CommunityPage/CommunityPage';
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
+  const navigate = useNavigate();
+
+  function handleLogin(userData) {
+    setUser(userData);
+    navigate('/'); // ✅ Redirect to Home Page after login
+  }
 
   return (
     <main className="App">
       <NavBar user={user} setUser={setUser} />
       <section id="main-section">
-        {user ? (
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/posts" element={<PostListPage />} />
-            <Route path="/posts/new" element={<NewPostPage />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignUpPage setUser={setUser} />} />
-            <Route path="/login" element={<LogInPage setUser={setUser} />} />
-          </Routes>
-        )}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignUpPage setUser={handleLogin} />} />
+          <Route path="/login" element={<LogInPage setUser={handleLogin} />} />
+          
+          {/* Protected Routes (Only Accessible After Login) */}
+          {user && (
+            <>
+              <Route path="/workouts" element={<WorkoutsPage />} />
+              <Route path="/exercises" element={<ExercisesPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+            </>
+          )}
+        </Routes>
       </section>
-      <Footer user={user}/>
+      <Footer user={user} />
     </main>
   );
 }
