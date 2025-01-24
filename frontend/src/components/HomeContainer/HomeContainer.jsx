@@ -7,9 +7,8 @@ export default function HomeContainer({ user }) {
   return (
     <div className="home-container">
       <p className="quote-text">{placeholderQuote}</p>
-      {!user && <SignUpButton />} {/* Show SignUpButton only for visitors */}
-      {!user && <img src="/placeholder-image.png" alt="Motivational" className="home-image" />} {/* Placeholder image */}
-      {user && <p className="date-text">Today's Date: {new Date().toDateString()}</p>} {/* Show date for logged-in users */}
+      {!user && <SignUpButton />}
+      {user && <p className="date-text">Today's Date: {new Date().toDateString()}</p>}
     </div>
   );
 }
