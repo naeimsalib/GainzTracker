@@ -1,28 +1,67 @@
 .Footer {
-  margin-top: auto;
   width: 100%;
   background-color: #f5f5f5;
-  padding: 15px 0;
+  padding: 20px 0;
   text-align: center;
   position: relative;
   box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.Footer .links {
+/* Top section containing logo and links */
+.footer-top {
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
 }
 
-.Footer .links a {
+/* Footer logo (GainzTracker) */
+.footer-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Footer Links Section */
+.footer-links {
+  text-align: left;
+}
+
+.footer-links h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Links Navigation */
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto); /* Two-column layout */
+  gap: 8px 15px;
+  text-align: left;
+}
+
+.footer-nav a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  padding: 5px 10px;
+  padding: 5px;
   transition: color 0.3s ease-in-out;
 }
 
-.Footer .links a:hover {
+.footer-nav a:hover {
   color: #007bff;
+}
+
+/* Divider Line */
+.footer-line {
+  width: 90%;
+  margin: 15px auto;
+  border: 0.5px solid #ccc;
+}
+
+/* Copyright */
+.footer-copyright {
+  font-size: 0.9rem;
+  color: black;
 }

@@ -5,16 +5,21 @@ export default function Footer({ user }) {
   return (
     <footer className="Footer">
       <div className="footer-top">
+        {/* Left Section - Logo */}
         <h2 className="footer-logo">GainzTracker</h2>
+
+        {/* Right Section - Links */}
         <div className="footer-links">
           <h3>Links</h3>
-          <nav>
+          <div className="footer-nav">
             {user ? (
               <>
                 <NavLink to="/">Home</NavLink>
-                <NavLink to="/workouts">Workouts</NavLink>
-                <NavLink to="/exercises">Exercises</NavLink>
                 <NavLink to="/community">Community</NavLink>
+                <NavLink to="/profile">Profile</NavLink>
+                <NavLink to="/progress-tracker">Progress Tracker</NavLink>
+                <NavLink to="/workouts">Workouts</NavLink>
+                <NavLink to="/exercises">Exercise Library</NavLink>
               </>
             ) : (
               <>
@@ -22,10 +27,14 @@ export default function Footer({ user }) {
                 <NavLink to="/login">Sign In</NavLink>
               </>
             )}
-          </nav>
+          </div>
         </div>
       </div>
+
+      {/* Divider Line */}
       <hr className="footer-line" />
+
+      {/* Copyright */}
       <p className="footer-copyright">
         &copy; {new Date().getFullYear()} GainzTracker
       </p>
