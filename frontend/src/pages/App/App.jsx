@@ -31,7 +31,7 @@ export default function App() {
           </Routes>
         )}
       </section>
-      <Footer />
+      <Footer user={user}/>
     </main>
   );
 }
