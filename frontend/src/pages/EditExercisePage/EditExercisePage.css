@@ -1,0 +1,41 @@
+.EditExercisePage {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .exercise-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+  }
+  
+  .exercise-form label {
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .exercise-form input,
+  .exercise-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  

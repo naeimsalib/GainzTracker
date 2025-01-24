@@ -1,17 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getExercises, deleteExercise } from '../../services/exerciseService';
 import './ExercisesPage.css';
 
 export default function ExercisesPage() {
   const [exercises, setExercises] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch exercises (Placeholder until backend is ready)
+  // Fetch exercises from backend
   useEffect(() => {
-    // Replace with API call later
-    const savedExercises = JSON.parse(localStorage.getItem('exercises')) || [];
-    setExercises(savedExercises);
+    async function fetchExercises() {
+      try {
+        const data = await getExercises();
+        setExercises(data);
+      } catch (err) {
+        console.error("Error fetching exercises:", err);
+      }
+    }
+    fetchExercises();
   }, []);
+
+  async function handleDelete(id) {
+    if (window.confirm("Are you sure you want to delete this exercise?")) {
+      try {
+        await deleteExercise(id);
+        setExercises(exercises.filter(exercise => exercise._id !== id));
+      } catch (err) {
+        console.error("Error deleting exercise:", err);
+      }
+    }
+  }
 
   return (
     <div className="ExercisesPage">
@@ -19,11 +37,13 @@ export default function ExercisesPage() {
 
       {exercises.length > 0 ? (
         <ul className="exercise-list">
-          {exercises.map((exercise, index) => (
-            <li key={index} className="exercise-item">
+          {exercises.map((exercise) => (
+            <li key={exercise._id} className="exercise-item">
               <h3>{exercise.name}</h3>
               <p><strong>Category:</strong> {exercise.category}</p>
               <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+              <button onClick={() => navigate(`/exercises/${exercise._id}/edit`)}>Edit</button>
+              <button onClick={() => handleDelete(exercise._id)}>Delete</button>
             </li>
           ))}
         </ul>

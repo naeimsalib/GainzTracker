@@ -11,6 +11,8 @@ import CommunityPage from '../CommunityPage/CommunityPage';
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import AddExercisePage from '../AddExercisePage/AddExercisePage';
+import EditExercisePage from '../EditExercisePage/EditExercisePage'; 
+
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -35,6 +37,9 @@ export default function App() {
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/exercises/new" element={<AddExercisePage />} />
+              <Route path="/exercises" element={<ExercisesPage />} />
+              <Route path="/exercises/new" element={<AddExercisePage />} />
+              <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
               <Route path="/community" element={<CommunityPage />} />
             </>
           )}
