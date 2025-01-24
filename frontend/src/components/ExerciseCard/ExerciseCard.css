@@ -1,12 +1,14 @@
 .exercise-card {
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
+    width: 100%; /* Allow grid to control sizing */
+    max-width: 300px; /* Prevents exercises from being too large */
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     position: relative;
   }
   
