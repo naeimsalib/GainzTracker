@@ -25,6 +25,10 @@ app.use('/api/auth', require('./routes/auth'));
 // All routers below will have all routes protected
 app.use(require('./middleware/ensureLoggedIn'));
 
+// API Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/exercises', require('./routes/exercises'));
+
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
