@@ -38,6 +38,7 @@ export default function ExercisesPage() {
       {exercises.length > 0 ? (
         <ul className="exercise-list">
           {exercises.map((exercise) => (
+            <>
             <li key={exercise._id} className="exercise-item">
               <h3>{exercise.name}</h3>
               <p><strong>Category:</strong> {exercise.category}</p>
@@ -45,6 +46,13 @@ export default function ExercisesPage() {
               <button onClick={() => navigate(`/exercises/${exercise._id}/edit`)}>Edit</button>
               <button onClick={() => handleDelete(exercise._id)}>Delete</button>
             </li>
+            <div className="no-exercises">
+              <p>Add More Exercises</p>
+              <button onClick={() => navigate('/exercises/new')} className="add-exercise-btn">
+                Add Exercise
+              </button>
+            </div>
+            </>
           ))}
         </ul>
       ) : (

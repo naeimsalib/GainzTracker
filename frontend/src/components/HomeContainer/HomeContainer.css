@@ -1,10 +1,15 @@
 .home-container {
-    background-color: #f5f5f5;
+    background-color: #9e9c9c;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     width: 50%;
-    margin: 40px auto;
+    max-width: 600px; /* Prevents it from stretching too wide */
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
   
