@@ -13,6 +13,7 @@ export default function Footer({ user }) {
               <>
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/workouts">Workouts</NavLink>
+                <NavLink to="/exercises">Exercises</NavLink>
                 <NavLink to="/community">Community</NavLink>
               </>
             ) : (
