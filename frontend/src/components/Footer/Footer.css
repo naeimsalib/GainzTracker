@@ -1,0 +1,11 @@
+.Footer {
+    text-align: center;
+    padding: 1.5vmin;
+    background-color: #878585;
+    border-radius:10px;
+    color: rgb(223, 220, 220);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  

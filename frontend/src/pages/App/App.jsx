@@ -8,6 +8,7 @@ import NewPostPage from '../NewPostPage/NewPostPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import LogInPage from '../LogInPage/LogInPage';
 import NavBar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -30,6 +31,7 @@ export default function App() {
           </Routes>
         )}
       </section>
+      <Footer />
     </main>
   );
 }
