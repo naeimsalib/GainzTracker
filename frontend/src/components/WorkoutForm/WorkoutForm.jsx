@@ -3,18 +3,18 @@ import { useState } from "react";
 export default function WorkoutForm({ handleSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
-    date: "Monday", // ✅ Default value set to Monday
-    workoutType: "Strength", // ✅ Default to valid type
+    dayOfWeek: "Monday", // ✅ Changed from date to dayOfWeek
+    workoutType: "Strength",
     duration: "", // ✅ Allow clearing input
     exercises: [],
-    intensityLevel: 5, // ✅ Default intensity level
+    intensityLevel: 5,
   });
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "duration" || name === "intensityLevel" ? (value === "" ? "" : Number(value)) : value, // ✅ Allow clearing & convert to number
+      [name]: name === "duration" || name === "intensityLevel" ? (value === "" ? "" : Number(value)) : value, // ✅ Convert duration to number
     }));
   }
 
@@ -28,9 +28,9 @@ export default function WorkoutForm({ handleSubmit }) {
       <label>Title</label>
       <input type="text" name="title" value={formData.title} onChange={handleChange} required />
 
-      {/* ✅ Dropdown for Weekdays */}
+      {/* ✅ Updated to use dayOfWeek */}
       <label>Day of the Week</label>
-      <select name="date" value={formData.date} onChange={handleChange} required>
+      <select name="dayOfWeek" value={formData.dayOfWeek} onChange={handleChange} required>
         <option value="Sunday">Sunday</option>
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
@@ -48,7 +48,6 @@ export default function WorkoutForm({ handleSubmit }) {
         <option value="Mobility">Mobility</option>
       </select>
 
-      {/* ✅ Fix duration input to allow clearing */}
       <label>Duration (minutes)</label>
       <input
         type="number"

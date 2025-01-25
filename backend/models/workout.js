@@ -10,7 +10,19 @@ const Workout =
       {
         user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         title: { type: String, required: true },
-        date: { type: Date, required: true },
+        dayOfWeek: {
+          type: String,
+          enum: [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+          ],
+          required: true,
+        },
         workoutType: {
           type: String,
           enum: ['Strength', 'Cardio', 'Flexibility', 'Mobility'],

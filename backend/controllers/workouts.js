@@ -43,25 +43,21 @@ async function createWorkout(req, res) {
   try {
     console.log('Received Workout Data:', req.body);
 
-    const { title, date, workoutType, duration, exercises } = req.body;
+    const { title, dayOfWeek, workoutType, duration, exercises } = req.body;
 
-    if (!title || !date || !workoutType || !duration) {
+    if (!title || !dayOfWeek || !workoutType || !duration) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // Create the new workout
+    // Create the new workout with dayOfWeek instead of date
     const newWorkout = await Workout.create({
-      ...req.body,
+      title,
+      dayOfWeek,
+      workoutType,
+      duration,
+      exercises,
       user: req.user._id,
     });
-
-    // If exercises are included, link them to this workout
-    if (exercises && exercises.length > 0) {
-      await Exercise.updateMany(
-        { _id: { $in: exercises } },
-        { $push: { workouts: newWorkout._id } }
-      );
-    }
 
     res.status(201).json(newWorkout);
   } catch (err) {
