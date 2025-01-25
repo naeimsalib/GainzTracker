@@ -1,18 +1,22 @@
-import { useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { getUser } from '../../services/authService';
-import './App.css';
-import HomePage from '../HomePage/HomePage';
-import SignUpPage from '../SignUpPage/SignUpPage';
-import LogInPage from '../LogInPage/LogInPage';
-import WorkoutsPage from '../WorkoutsPage/WorkoutsPage';
-import ExercisesPage from '../ExercisesPage/ExercisesPage';
-import CommunityPage from '../CommunityPage/CommunityPage';
-import NavBar from '../../components/NavBar/NavBar';
-import Footer from '../../components/Footer/Footer';
-import AddExercisePage from '../AddExercisePage/AddExercisePage';
-import EditExercisePage from '../EditExercisePage/EditExercisePage'; 
+import { useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { getUser } from "../../services/authService";
+import "./App.css";
 
+// Importing Pages
+import HomePage from "../HomePage/HomePage";
+import SignUpPage from "../SignUpPage/SignUpPage";
+import LogInPage from "../LogInPage/LogInPage";
+import WorkoutPage from "../WorkoutPage/WorkoutPage";
+import AddWorkoutPage from "../AddWorkoutPage/AddWorkoutPage";
+import ExercisesPage from "../ExercisesPage/ExercisesPage";
+import AddExercisePage from "../AddExercisePage/AddExercisePage";
+import EditExercisePage from "../EditExercisePage/EditExercisePage";
+import CommunityPage from "../CommunityPage/CommunityPage";
+
+// Importing Components
+import NavBar from "../../components/NavBar/NavBar";
+import Footer from "../../components/Footer/Footer";
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -20,7 +24,7 @@ export default function App() {
 
   function handleLogin(userData) {
     setUser(userData);
-    navigate('/'); // Redirect to Home Page after login
+    navigate("/"); // Redirect to Home Page after login
   }
 
   return (
@@ -28,18 +32,24 @@ export default function App() {
       <NavBar user={user} setUser={setUser} />
       <section id="main-section">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<HomePage user={user} />} />
           <Route path="/signup" element={<SignUpPage setUser={handleLogin} />} />
           <Route path="/login" element={<LogInPage setUser={handleLogin} />} />
+
+          {/* Protected Routes (Only accessible when logged in) */}
           {user && (
             <>
-              <Route path="/workouts" element={<WorkoutsPage />} />
-              <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/exercises/new" element={<AddExercisePage />} />
+              {/* Workouts */}
+              <Route path="/workouts" element={<WorkoutPage />} />
+              <Route path="/workouts/new" element={<AddWorkoutPage />} />
+
+              {/* Exercises */}
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/exercises/new" element={<AddExercisePage />} />
               <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
+
+              {/* Community */}
               <Route path="/community" element={<CommunityPage />} />
             </>
           )}
