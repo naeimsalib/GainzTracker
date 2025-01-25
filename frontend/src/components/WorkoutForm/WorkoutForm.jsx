@@ -1,42 +1,51 @@
-import { useState } from "react";
-import "./WorkoutForm.css";
+import { useState } from 'react';
 
-export default function WorkoutForm({ onSubmit }) {
-  const [workoutData, setWorkoutData] = useState({
-    title: "",
-    day: "",
-    workoutType: "",
-    duration: "",
-    intensityLevel: "",
+export default function WorkoutForm({ handleSubmit }) {
+  const [formData, setFormData] = useState({
+    title: '',
+    date: '', // ✅ Ensure the date field is included
+    workoutType: 'Strength', // ✅ Default to a valid type
+    duration: 0, // ✅ Ensure this is a number
+    exercises: [], // ✅ Empty array if no exercises
+    intensityLevel: 5, // ✅ Default to mid-level intensity
   });
 
   function handleChange(e) {
-    setWorkoutData({ ...workoutData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === 'duration' || name === 'intensityLevel' ? Number(value) : value, // ✅ Ensure numbers
+    }));
   }
 
-  function handleSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault();
-    onSubmit(workoutData);
+    handleSubmit(formData); // ✅ Send correct form data to backend
   }
 
   return (
-    <form className="workout-form" onSubmit={handleSubmit}>
-      <label>Workout Title</label>
-      <input type="text" name="title" onChange={handleChange} required />
+    <form onSubmit={onSubmit}>
+      <label>Title</label>
+      <input type="text" name="title" value={formData.title} onChange={handleChange} required />
 
-      <label>Day</label>
-      <input type="text" name="day" onChange={handleChange} required />
+      <label>Date</label>
+      <input type="date" name="date" value={formData.date} onChange={handleChange} required />
 
-      <label>Type</label>
-      <input type="text" name="workoutType" onChange={handleChange} required />
+      <label>Workout Type</label>
+      <select name="workoutType" value={formData.workoutType} onChange={handleChange} required>
+        <option value="Strength">Strength</option>
+        <option value="Cardio">Cardio</option>
+        <option value="Flexibility">Flexibility</option>
+        <option value="Mobility">Mobility</option>
+      </select>
 
-      <label>Duration</label>
-      <input type="text" name="duration" onChange={handleChange} required />
+      <label>Duration (minutes)</label>
+      <input type="number" name="duration" value={formData.duration} onChange={handleChange} required />
 
-      <label>Intensity Level</label>
-      <input type="text" name="intensityLevel" onChange={handleChange} required />
+      <label>Intensity Level (1-10)</label>
+      <input type="number" name="intensityLevel" min="1" max="10" value={formData.intensityLevel} onChange={handleChange} required />
 
-      <button type="submit">Save Workout</button>
+      <button type="submit">Add Workout</button>
     </form>
   );
 }
