@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Check if the model already exists before defining it
 const Workout =
   mongoose.models.Workout ||
   mongoose.model(
@@ -32,6 +31,7 @@ const Workout =
         exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
         notes: { type: String },
         intensityLevel: { type: Number, min: 1, max: 10 },
+        sharedWithCommunity: { type: Boolean, default: false },
       },
       { timestamps: true }
     )
