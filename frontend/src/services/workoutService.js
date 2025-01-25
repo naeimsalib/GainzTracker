@@ -2,12 +2,17 @@ import sendRequest from './sendRequest';
 
 const BASE_URL = '/api/workouts';
 
-// Fetch all workouts
+// Get all workouts
 export async function getWorkouts() {
   return sendRequest(BASE_URL, 'GET');
 }
 
-// Create a new workout
+// Get single workout with exercises
+export async function getWorkout(id) {
+  return sendRequest(`${BASE_URL}/${id}`, 'GET');
+}
+
+// Create a workout
 export async function createWorkout(workoutData) {
   return sendRequest(BASE_URL, 'POST', workoutData);
 }
