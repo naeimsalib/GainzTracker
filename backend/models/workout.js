@@ -1,22 +1,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const workoutSchema = new Schema(
+const exerciseSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true },
-    date: { type: Date, required: true },
-    workoutType: {
+    name: { type: String, required: true },
+    category: {
       type: String,
       enum: ['Strength', 'Cardio', 'Flexibility', 'Mobility'],
       required: true,
     },
-    duration: { type: Number, required: true },
-    exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }], // Links to Exercise model
+    muscleGroup: { type: String, required: true },
+    equipment: { type: String },
+    difficultyLevel: {
+      type: String,
+      enum: ['Beginner', 'Intermediate', 'Advanced'],
+      required: true,
+    },
+    sets: { type: Number },
+    reps: { type: Number },
+    restTime: { type: Number },
+    video: { type: String },
     notes: { type: String },
-    intensityLevel: { type: Number, min: 1, max: 10 },
+    workouts: [{ type: Schema.Types.ObjectId, ref: 'Workout' }], // Linking exercises to workouts
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Workout', workoutSchema);
+module.exports = mongoose.model('Exercise', exerciseSchema);
