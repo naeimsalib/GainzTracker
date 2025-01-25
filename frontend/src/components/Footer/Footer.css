@@ -35,10 +35,11 @@
 
 /* Links Navigation */
 .footer-nav {
-  display: grid;
-  grid-template-columns: repeat(2, auto); /* Two-column layout */
+  display: flex;
+  grid-template-columns: repeat(5, auto); /* Two-column layout */
   gap: 8px 15px;
   text-align: left;
+  flex-wrap: wrap;
 }
 
 .footer-nav a {
