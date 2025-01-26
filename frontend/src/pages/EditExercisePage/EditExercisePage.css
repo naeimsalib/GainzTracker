@@ -1,41 +1,68 @@
-.EditExercisePage {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .exercise-form {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    margin: auto;
-  }
-  
-  .exercise-form label {
-    text-align: left;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .exercise-form input,
-  .exercise-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
+.edit-exercise-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* Wider Form */
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--light-shadow);
+}
+
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.exercise-form label {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.exercise-form input,
+.exercise-form select,
+.exercise-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.exercise-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.exercise-form button {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.exercise-form button:hover {
+  opacity: 0.8;
+}
