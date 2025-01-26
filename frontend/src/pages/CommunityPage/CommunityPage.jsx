@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getSharedWorkouts, getSharedExercises } from "../../services/workoutService";
+import { getSharedWorkouts } from "../../services/workoutService"; 
+import { getSharedExercises } from "../../services/exerciseService"; 
 import "./CommunityPage.css";
 
 export default function CommunityPage() {
-  const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);
   const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
     async function fetchCommunityData() {
-      setWorkouts(await getSharedWorkouts());
-      setExercises(await getSharedExercises());
+      try {
+        const workoutsData = await getSharedWorkouts();
+        const exercisesData = await getSharedExercises();
+        setWorkouts(workoutsData);
+        setExercises(exercisesData);
+      } catch (err) {
+        console.error("Error fetching community data:", err);
+      }
     }
     fetchCommunityData();
   }, []);
@@ -19,22 +24,28 @@ export default function CommunityPage() {
   return (
     <div className="CommunityPage">
       <h1>Community Workouts & Exercises</h1>
-      
+
       <h2>Shared Workouts</h2>
-      {workouts.map((workout) => (
-        <div key={workout._id} className="shared-item">
-          <p>{workout.title} by {workout.user.name}</p>
-          <button onClick={() => navigate(`/workouts/${workout._id}`)}>View Details</button>
-        </div>
-      ))}
+      {workouts.length > 0 ? (
+        workouts.map((workout) => (
+          <div key={workout._id}>
+            {workout.title} by {workout.user?.name || "Anonymous"}
+          </div>
+        ))
+      ) : (
+        <p>No shared workouts available.</p>
+      )}
 
       <h2>Shared Exercises</h2>
-      {exercises.map((exercise) => (
-        <div key={exercise._id} className="shared-item">
-          <p>{exercise.name} by {exercise.user.name}</p>
-          <button onClick={() => navigate(`/exercises/${exercise._id}`)}>View Details</button>
-        </div>
-      ))}
+      {exercises.length > 0 ? (
+        exercises.map((exercise) => (
+          <div key={exercise._id}>
+            {exercise.name} by {exercise.user?.name || "Anonymous"}
+          </div>
+        ))
+      ) : (
+        <p>No shared exercises available.</p>
+      )}
     </div>
   );
 }
