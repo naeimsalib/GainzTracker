@@ -14,7 +14,8 @@ import AddExercisePage from "../AddExercisePage/AddExercisePage";
 import EditExercisePage from "../EditExercisePage/EditExercisePage";
 import CommunityPage from "../CommunityPage/CommunityPage";
 import WorkoutDetailPage from "../WorkoutDetailPage/WorkoutDetailPage";
-import ExerciseDetailPage from "../ExerciseDetailPage/ExerciseDetailPage"; 
+import ExerciseDetailPage from "../ExerciseDetailPage/ExerciseDetailPage";
+import EditWorkoutPage from "../EditWorkoutPage/EditWorkoutPage";
 
 // Importing Components
 import NavBar from "../../components/NavBar/NavBar";
@@ -45,11 +46,12 @@ export default function App() {
               {/* Workouts */}
               <Route path="/workouts" element={<WorkoutPage />} />
               <Route path="/workouts/new" element={<AddWorkoutPage />} />
+              <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
+              <Route path="/workouts/:id/edit" element={<EditWorkoutPage />} />
 
               {/* Exercises */}
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/exercises/new" element={<AddExercisePage />} />
-              <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
               <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
               <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
 

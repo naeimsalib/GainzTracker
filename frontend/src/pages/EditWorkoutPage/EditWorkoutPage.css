@@ -1,0 +1,10 @@
+.EditWorkoutPage {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--light-shadow);
+    text-align: center;
+  }
+  

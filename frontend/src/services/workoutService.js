@@ -14,6 +14,7 @@ export async function getWorkout(id) {
 
 // Create a workout
 export async function createWorkout(workoutData) {
+  console.log('Creating workout:', workoutData); // ✅ Debugging
   return sendRequest(BASE_URL, 'POST', workoutData);
 }
 
