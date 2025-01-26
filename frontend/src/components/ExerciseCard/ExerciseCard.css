@@ -1,42 +1,41 @@
 .exercise-card {
-  background-color: #ffffff;
+  background-color: white;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Allow grid to control sizing */
-  max-width: 300px; /* Prevents exercises from being too large */
+  box-shadow: var(--light-shadow);
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   position: relative;
 }
-  
-  .exercise-title {
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  
-  .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px;
-    border-radius: 50%;
-  }
-  
-  .share-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
+
+.exercise-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.share-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}

@@ -1,13 +1,14 @@
 :root {
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  --font-family: 'Arial', sans-serif;
+  --text-color: #1a1a1a;
+  --bg-color: #f5f5f5;
+  --primary-color: #007bff;
+  --secondary-color: #ff4d4d;
+  --light-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-family);
   font-weight: 400;
-  color: #1a1a1a;
-  background-color: whitesmoke;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 * {
@@ -24,58 +25,50 @@ body {
 
 h1, h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 button {
-  border: 0.5vmin solid #1a1a1a;
-  border-radius: 0.5vmin;
-  padding: 0.8vmin;
-  font-size: 2vmin;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  color: whitesmoke;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: var(--text-color);
+  color: var(--bg-color);
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: white;
-  color: #1a1a1a;
-  border-color: #1a1a1a;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 button:disabled {
   background-color: grey;
+  cursor: not-allowed;
 }
 
 form {
   display: grid;
-  gap: 1.2vmin;
-  padding: 4vmin;
-  border: 0.5vmin solid #1a1a1a;
-  border-radius: 1vmin;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: var(--light-shadow);
 }
 
 input, select, textarea {
-  padding: 0.7vmin;
-  font-size: 2vmin;
-  border: 0.3vmin solid #1a1a1a;
-  border-radius: 0.5vmin;
-}
-
-form > button:last-child {
-  margin-top: 2vmin;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
 }
 
 label {
-  font-size: 2vmin;
+  font-size: 1rem;
   font-weight: bold;
-}
-
-h2 {
-  text-align: center;
-}
-
-.error-message {
-  color: rgb(166, 29, 29);
 }
