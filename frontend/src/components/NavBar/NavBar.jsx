@@ -8,6 +8,7 @@ export default function NavBar({ user, setUser }) {
   function handleLogOut() {
     logOut();
     setUser(null);
+    navigate('/');
   }
 
   // Determine the title based on the page
