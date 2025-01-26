@@ -26,3 +26,11 @@ export async function updateExercise(id, exerciseData) {
 export async function deleteExercise(id) {
   return sendRequest(`${BASE_URL}/${id}`, 'DELETE');
 }
+// 📌 Share an exercise
+export async function shareExercise(id) {
+  return sendRequest(`${BASE_URL}/${id}/share`, 'PUT');
+}
+// 📌 Fetch shared exercises
+export async function getSharedExercises() {
+  return sendRequest(`${BASE_URL}/community`);
+}
