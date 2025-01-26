@@ -91,12 +91,17 @@ async function shareExercise(req, res) {
       { sharedWithCommunity: true },
       { new: true }
     );
-    if (!exercise)
-      return res.status(404).json({ message: 'Exercise not found' });
-    res.json(exercise);
+    if (!exercise) {
+      return res.status(404).json({
+        message: "Exercise not found or you don't have permission to share it.",
+      });
+    }
+    res.json({ message: 'Exercise shared successfully!', exercise });
   } catch (err) {
     console.error('Error sharing exercise:', err);
-    res.status(500).json({ message: 'Error sharing exercise' });
+    res
+      .status(500)
+      .json({ message: 'Error sharing exercise', error: err.message });
   }
 }
 

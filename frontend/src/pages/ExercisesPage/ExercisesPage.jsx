@@ -8,7 +8,6 @@ export default function ExercisesPage() {
   const [exercises, setExercises] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch exercises from backend
   useEffect(() => {
     async function fetchExercises() {
       try {
@@ -21,15 +20,10 @@ export default function ExercisesPage() {
     fetchExercises();
   }, []);
 
-  async function handleDelete(id) {
-    if (window.confirm("Are you sure you want to delete this exercise?")) {
-      try {
-        await deleteExercise(id);
-        setExercises(exercises.filter((exercise) => exercise._id !== id));
-      } catch (err) {
-        console.error("Error deleting exercise:", err);
-      }
-    }
+  async function handleShare(id) {
+    setExercises(exercises.map(ex => 
+      ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
+    ));
   }
 
   return (
@@ -38,7 +32,7 @@ export default function ExercisesPage() {
       <button onClick={() => navigate("/exercises/new")} className="add-exercise-btn">
         Add Exercise
       </button>
-      
+
       <div className="exercise-container">
         {exercises.length > 0 ? (
           exercises.map((exercise) => (
@@ -46,7 +40,8 @@ export default function ExercisesPage() {
               key={exercise._id}
               exercise={exercise}
               onEdit={(id) => navigate(`/exercises/${id}/edit`)}
-              onDelete={handleDelete}
+              onDelete={(id) => setExercises(exercises.filter(ex => ex._id !== id))}
+              onShare={handleShare}
             />
           ))
         ) : (
