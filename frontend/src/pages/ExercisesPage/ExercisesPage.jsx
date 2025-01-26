@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getExercises, deleteExercise } from "../../services/exerciseService";
+import { getExercises, deleteExercise, shareExercise } from "../../services/exerciseService";
 import ExerciseCard from "../../components/ExerciseCard/ExerciseCard";
 import "./ExercisesPage.css";
 
@@ -22,16 +22,16 @@ export default function ExercisesPage() {
 
   async function handleShare(id) {
     try {
-      await shareExercise(id);
+      await shareExercise(id); // Ensure this function is properly imported
       setExercises(exercises.map(ex => 
         ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
       ));
+      alert("Exercise shared successfully! 🎉");
     } catch (err) {
       console.error("Error sharing exercise:", err);
-      alert("Exercise is already shared.");
+      alert("Failed to share exercise.");
     }
   }
-  
 
   return (
     <div className="ExercisesPage">
