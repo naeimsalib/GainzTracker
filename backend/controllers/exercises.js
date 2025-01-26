@@ -81,3 +81,31 @@ async function deleteExercise(req, res) {
     res.status(400).json({ message: 'Error deleting exercise' });
   }
 }
+
+async function shareExercise(req, res) {
+  try {
+    const exercise = await Exercise.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { sharedWithCommunity: true },
+      { new: true }
+    );
+    if (!exercise)
+      return res.status(404).json({ message: 'Exercise not found' });
+    res.json(exercise);
+  } catch (err) {
+    console.error('Error sharing exercise:', err);
+    res.status(500).json({ message: 'Error sharing exercise' });
+  }
+}
+
+async function getSharedExercises(req, res) {
+  try {
+    const exercises = await Exercise.find({
+      sharedWithCommunity: true,
+    }).populate('user', 'name');
+    res.json(exercises);
+  } catch (err) {
+    console.error('Error fetching shared exercises:', err);
+    res.status(500).json({ message: 'Error retrieving shared exercises' });
+  }
+}

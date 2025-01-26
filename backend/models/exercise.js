@@ -27,7 +27,7 @@ const Exercise =
         video: { type: String },
         notes: { type: String },
         workouts: [{ type: Schema.Types.ObjectId, ref: 'Workout' }],
-        sharedWithCommunity: { type: Boolean, default: false }, // ✅ New field for sharing
+        sharedWithCommunity: { type: Boolean, default: false },
       },
       { timestamps: true }
     )
