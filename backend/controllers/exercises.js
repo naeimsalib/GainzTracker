@@ -86,16 +86,26 @@ async function deleteExercise(req, res) {
 
 async function shareExercise(req, res) {
   try {
-    const exercise = await Exercise.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
-      { sharedWithCommunity: true },
-      { new: true }
-    );
+    // Check if the exercise is already shared
+    const exercise = await Exercise.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
     if (!exercise) {
-      return res.status(404).json({
-        message: "Exercise not found or you don't have permission to share it.",
-      });
+      return res
+        .status(404)
+        .json({ message: 'Exercise not found or not owned by you.' });
     }
+
+    if (exercise.sharedWithCommunity) {
+      return res.status(400).json({ message: 'Exercise is already shared.' });
+    }
+
+    // Update to share
+    exercise.sharedWithCommunity = true;
+    await exercise.save();
+
     res.json({ message: 'Exercise shared successfully!', exercise });
   } catch (err) {
     console.error('Error sharing exercise:', err);

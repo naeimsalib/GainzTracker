@@ -19,7 +19,9 @@ export default function ExerciseCard({ exercise, onEdit, onDelete, onShare }) {
       <h3 className="exercise-title">{exercise.name}</h3>
       <p><strong>Category:</strong> {exercise.category}</p>
       <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
-      <button className="share-btn" onClick={handleShare}>Share with Community</button>
+      {!exercise.sharedWithCommunity && (
+  <button className="share-btn" onClick={handleShare}>Share with Community</button>
+)}
       <button onClick={() => onEdit(exercise._id)}>Edit</button>
     </div>
   );

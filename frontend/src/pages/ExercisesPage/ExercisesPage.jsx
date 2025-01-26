@@ -21,10 +21,17 @@ export default function ExercisesPage() {
   }, []);
 
   async function handleShare(id) {
-    setExercises(exercises.map(ex => 
-      ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
-    ));
+    try {
+      await shareExercise(id);
+      setExercises(exercises.map(ex => 
+        ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
+      ));
+    } catch (err) {
+      console.error("Error sharing exercise:", err);
+      alert("Exercise is already shared.");
+    }
   }
+  
 
   return (
     <div className="ExercisesPage">
