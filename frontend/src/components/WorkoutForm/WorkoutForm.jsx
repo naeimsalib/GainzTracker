@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./WorkoutForm.css";
 
 export default function WorkoutForm({ handleSubmit }) {
   const [formData, setFormData] = useState({
@@ -24,42 +25,64 @@ export default function WorkoutForm({ handleSubmit }) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>Title</label>
-      <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-      <label>Day of the Week</label>
-      <select name="dayOfWeek" value={formData.dayOfWeek} onChange={handleChange} required>
-        <option value="Sunday">Sunday</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
-      </select>
+    <div className="workout-form-container">
+      <h1>Create a Workout</h1>
+      <form onSubmit={onSubmit} className="workout-form">
+        <div className="form-group">
+          <label>Workout Title</label>
+          <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+        </div>
 
-      <label>Workout Type</label>
-      <select name="workoutType" value={formData.workoutType} onChange={handleChange} required>
-        <option value="Strength">Strength</option>
-        <option value="Cardio">Cardio</option>
-        <option value="Flexibility">Flexibility</option>
-        <option value="Mobility">Mobility</option>
-      </select>
+        <div className="form-group">
+          <label>Day of the Week</label>
+          <select name="dayOfWeek" value={formData.dayOfWeek} onChange={handleChange} required>
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
 
-      <label>Duration (minutes)</label>
-      <input
-        type="number"
-        name="duration"
-        value={formData.duration}
-        onChange={handleChange}
-        placeholder="Enter minutes"
-        required
-      />
+        <div className="form-group">
+          <label>Workout Type</label>
+          <select name="workoutType" value={formData.workoutType} onChange={handleChange} required>
+            <option value="Strength">Strength</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Flexibility">Flexibility</option>
+            <option value="Mobility">Mobility</option>
+          </select>
+        </div>
 
-      <label>Intensity Level (1-10)</label>
-      <input type="number" name="intensityLevel" min="1" max="10" value={formData.intensityLevel} onChange={handleChange} required />
+        <div className="form-group">
+          <label>Duration (minutes)</label>
+          <input
+            type="number"
+            name="duration"
+            value={formData.duration}
+            onChange={handleChange}
+            placeholder="Enter minutes"
+            required
+          />
+        </div>
 
-      <button type="submit">Add Workout</button>
-    </form>
+        <div className="form-group">
+          <label>Intensity Level (1-10)</label>
+          <input
+            type="number"
+            name="intensityLevel"
+            min="1"
+            max="10"
+            value={formData.intensityLevel}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <button type="submit">Save Workout</button>
+      </form>
+    </div>
   );
 }

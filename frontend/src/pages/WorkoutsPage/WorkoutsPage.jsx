@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getWorkouts, deleteWorkout } from "../../services/workoutService";
+import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
 import "./WorkoutsPage.css";
 
 export default function WorkoutsPage() {
@@ -22,18 +23,24 @@ export default function WorkoutsPage() {
   return (
     <div className="WorkoutsPage">
       <h1>Your Workouts</h1>
-      <button onClick={() => navigate("/workouts/new")}>Add Workout</button>
+      <button onClick={() => navigate("/workouts/new")} className="add-workout-btn">
+        Add Workout
+      </button>
 
-      <ul>
-        {workouts.map((workout) => (
-          <li key={workout._id}>
-            <h3 onClick={() => navigate(`/workouts/${workout._id}`)}>{workout.title}</h3> {/* ✅ Clickable */}
-            <p>Type: {workout.workoutType}</p>
-            <p>Duration: {workout.duration} minutes</p>
-            <button onClick={() => deleteWorkout(workout._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <div className="workout-container">
+        {workouts.length > 0 ? (
+          workouts.map((workout) => (
+            <WorkoutCard
+              key={workout._id}
+              workout={workout}
+              onEdit={(id) => navigate(`/workouts/${id}`)}
+              onDelete={(id) => setWorkouts(workouts.filter(w => w._id !== id))}
+            />
+          ))
+        ) : (
+          <p>You have no saved workouts.</p>
+        )}
+      </div>
     </div>
   );
 }
