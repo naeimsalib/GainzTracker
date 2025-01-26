@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const exercisesCtrl = require('../controllers/exercises');
 
+// GET all shared exercises
+router.get('/community', exercisesCtrl.getSharedExercises);
+
 // GET all exercises for the logged-in user
 router.get('/', exercisesCtrl.getAllExercises);
 

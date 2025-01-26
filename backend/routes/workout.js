@@ -3,6 +3,9 @@ const router = express.Router();
 const workoutCtrl = require('../controllers/workouts');
 const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
+//  GET all shared workouts
+router.get('/community', workoutCtrl.getSharedWorkouts);
+
 // GET all workouts
 router.get('/', ensureLoggedIn, workoutCtrl.getAllWorkouts);
 
@@ -20,8 +23,5 @@ router.delete('/:id', ensureLoggedIn, workoutCtrl.deleteWorkout);
 
 // PUT to share a workout
 router.put('/:id/share', ensureLoggedIn, workoutCtrl.shareWorkout);
-
-// GET all shared workouts
-router.get('/community', workoutCtrl.getSharedWorkouts);
 
 module.exports = router;

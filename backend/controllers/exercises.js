@@ -6,6 +6,8 @@ module.exports = {
   createExercise,
   updateExercise,
   deleteExercise,
+  shareExercise,
+  getSharedExercises,
 };
 
 //  GET All Exercises for Logged-in User

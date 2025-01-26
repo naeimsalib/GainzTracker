@@ -7,6 +7,8 @@ module.exports = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
+  shareWorkout,
+  getSharedWorkouts,
 };
 
 // ✅ Get all workouts for the logged-in user

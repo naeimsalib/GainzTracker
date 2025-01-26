@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Check if the model already exists before defining it
 const Workout =
   mongoose.models.Workout ||
   mongoose.model(
