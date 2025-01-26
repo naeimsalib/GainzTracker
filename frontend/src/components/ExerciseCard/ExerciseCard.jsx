@@ -8,24 +8,29 @@ export default function ExerciseCard({ exercise, onEdit, onDelete, onShare }) {
       if (onShare) {
         onShare(exercise._id);
       } else {
-        alert("Exercise shared successfully! 🎉"); // ✅ Ensure it runs only once
+        alert("Exercise shared successfully! 🎉");
       }
     } catch (err) {
       console.error("Error sharing exercise:", err);
       alert("Failed to share exercise.");
     }
   }
-  
 
   return (
     <div className="exercise-card">
-      <button className="delete-btn" onClick={() => onDelete(exercise._id)}>X</button>
+      <button className="delete-btn" onClick={() => onDelete(exercise._id)}>×</button>
+      
       <h3 className="exercise-title">{exercise.name}</h3>
-      <p><strong>Category:</strong> {exercise.category}</p>
-      <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
-      <button className="share-btn" onClick={() => handleShare()}>Share with Community</button>
+      
+      <div className="exercise-details">
+        <p><strong>Category:</strong> {exercise.category}</p>
+        <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+      </div>
 
-      <button onClick={() => onEdit(exercise._id)}>Edit</button>
+      <div className="exercise-actions">
+        <button className="share-btn" onClick={() => handleShare()}>Share</button>
+        <button className="edit-btn" onClick={() => onEdit(exercise._id)}>Edit</button>
+      </div>
     </div>
   );
 }

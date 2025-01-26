@@ -1,41 +1,98 @@
 .exercise-card {
   background-color: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: var(--light-shadow);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 300px;
+  max-width: 350px; /* Slightly wider */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   position: relative;
+  transition: transform 0.2s ease-in-out;
+}
+
+.exercise-card:hover {
+  transform: translateY(-5px);
 }
 
 .exercise-title {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
 }
 
-.delete-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: var(--secondary-color);
-  color: white;
+.exercise-details {
+  font-size: 1rem;
+  color: #333;
+  width: 100%;
+  text-align: left;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.exercise-details p {
+  margin: 5px 0;
+}
+
+.exercise-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.share-btn, .edit-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
   font-size: 14px;
-  padding: 5px;
-  border-radius: 50%;
+  font-weight: bold;
 }
 
 .share-btn {
   background-color: var(--primary-color);
   color: white;
+}
+
+.edit-btn {
+  background-color: #ffa500;
+  color: white;
+}
+
+.share-btn:hover {
+  background-color: #0056b3;
+}
+
+.edit-btn:hover {
+  background-color: #ff8c00;
+}
+
+/* Delete Button (X) */
+.delete-btn {
+  position: absolute;
+  top: -10px; /* Moved higher */
+  right: -10px; /* Adjusted for better positioning */
+  background: red;
+  color: white;
   border: none;
-  padding: 8px;
-  border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  font-size: 18px;
+  width: 30px; /* Increased size */
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.delete-btn:hover {
+  background: darkred;
 }
