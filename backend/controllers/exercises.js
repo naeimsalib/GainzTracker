@@ -1,4 +1,5 @@
 const Exercise = require('../models/exercise');
+const mongoose = require('mongoose');
 
 module.exports = {
   getAllExercises,
@@ -86,25 +87,21 @@ async function deleteExercise(req, res) {
 
 async function shareExercise(req, res) {
   try {
-    // Check if the exercise is already shared
-    const exercise = await Exercise.findOne({
-      _id: req.params.id,
-      user: req.user._id,
-    });
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid Exercise ID format' });
+    }
+
+    const exercise = await Exercise.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { sharedWithCommunity: true },
+      { new: true }
+    );
 
     if (!exercise) {
-      return res
-        .status(404)
-        .json({ message: 'Exercise not found or not owned by you.' });
+      return res.status(404).json({
+        message: "Exercise not found or you don't have permission to share it.",
+      });
     }
-
-    if (exercise.sharedWithCommunity) {
-      return res.status(400).json({ message: 'Exercise is already shared.' });
-    }
-
-    // Update to share
-    exercise.sharedWithCommunity = true;
-    await exercise.save();
 
     res.json({ message: 'Exercise shared successfully!', exercise });
   } catch (err) {

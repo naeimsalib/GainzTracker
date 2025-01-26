@@ -28,6 +28,7 @@ export async function deleteExercise(id) {
 }
 // 📌 Share an exercise
 export async function shareExercise(id) {
+  if (!id) throw new Error('Exercise ID is required for sharing.');
   return sendRequest(`${BASE_URL}/${id}/share`, 'PUT');
 }
 // 📌 Fetch shared exercises
