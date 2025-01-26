@@ -3,45 +3,46 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  margin: 50px auto;
+  max-width: 800px; /* ⬆ Increased width */
+  margin: 40px auto;
   background: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: var(--light-shadow);
 }
 
 .exercise-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+/* Fix the label issue by making the input grid wider */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   width: 100%;
 }
 
-.exercise-form label {
-  font-weight: bold;
-  margin-top: 10px;
-  text-align: left;
+/* Prevent label text from wrapping */
+.form-grid label {
+  white-space: nowrap;
 }
 
-.exercise-form input,
-.exercise-form select,
-.exercise-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
+/* Make input boxes slightly larger */
+.form-grid input {
+  width: 100%; /* Make inputs fill their grid space */
+  padding: 8px;
+  text-align: center;
 }
 
-.exercise-form textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
+/* Adjust the button to match the new width */
 .exercise-form button {
-  margin-top: 20px;
-  padding: 10px;
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
   font-size: 16px;
   background-color: var(--primary-color);
   color: white;
