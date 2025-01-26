@@ -39,9 +39,7 @@ export default function ExercisesPage() {
   return (
     <div className="ExercisesPage">
       <h1>Your Exercises</h1>
-      <button onClick={() => navigate("/exercises/new")} className="add-exercise-btn">
-        Add Exercise
-      </button>
+
 
       <div className="exercise-container">
         {exercises.length > 0 ? (
@@ -58,6 +56,9 @@ export default function ExercisesPage() {
           <p>You have no saved exercises.</p>
         )}
       </div>
+      <button onClick={() => navigate("/exercises/new")} className="add-exercise-btn">
+        Add Exercise
+      </button>
     </div>
   );
 }
