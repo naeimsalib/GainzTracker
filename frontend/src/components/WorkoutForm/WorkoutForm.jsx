@@ -3,9 +3,9 @@ import { useState } from "react";
 export default function WorkoutForm({ handleSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
-    dayOfWeek: "Monday", // ✅ Changed from date to dayOfWeek
+    dayOfWeek: "Monday", 
     workoutType: "Strength",
-    duration: "", // ✅ Allow clearing input
+    duration: "", 
     exercises: [],
     intensityLevel: 5,
   });
@@ -14,7 +14,7 @@ export default function WorkoutForm({ handleSubmit }) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "duration" || name === "intensityLevel" ? (value === "" ? "" : Number(value)) : value, // ✅ Convert duration to number
+      [name]: name === "duration" || name === "intensityLevel" ? (value === "" ? "" : Number(value)) : value, 
     }));
   }
 
@@ -27,8 +27,6 @@ export default function WorkoutForm({ handleSubmit }) {
     <form onSubmit={onSubmit}>
       <label>Title</label>
       <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-
-      {/* ✅ Updated to use dayOfWeek */}
       <label>Day of the Week</label>
       <select name="dayOfWeek" value={formData.dayOfWeek} onChange={handleChange} required>
         <option value="Sunday">Sunday</option>

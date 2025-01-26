@@ -1,25 +1,42 @@
-.exercise-form {
+.exercise-form-container {
   display: flex;
   flex-direction: column;
-  max-width: 500px;
-  margin: auto;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: var(--light-shadow);
 }
 
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .exercise-form label {
   font-weight: bold;
   margin-top: 10px;
+  text-align: left;
 }
 
 .exercise-form input,
-.exercise-form select {
-  padding: 8px;
+.exercise-form select,
+.exercise-form textarea {
+  width: 100%;
+  padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 1rem;
+}
+
+.exercise-form textarea {
+  resize: vertical;
+  min-height: 60px;
 }
 
 .exercise-form button {
