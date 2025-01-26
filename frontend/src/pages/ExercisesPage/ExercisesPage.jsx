@@ -22,16 +22,19 @@ export default function ExercisesPage() {
 
   async function handleShare(id) {
     try {
-      await shareExercise(id); // Ensure this function is properly imported
-      setExercises(exercises.map(ex => 
-        ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
-      ));
-      alert("Exercise shared successfully! 🎉");
+      await shareExercise(id);
+      setExercises(prevExercises => 
+        prevExercises.map(ex => 
+          ex._id === id ? { ...ex, sharedWithCommunity: true } : ex
+        )
+      );
+      console.log("Exercise shared successfully! 🎉"); // ✅ Replace with console.log() for debugging
     } catch (err) {
       console.error("Error sharing exercise:", err);
       alert("Failed to share exercise.");
     }
   }
+  
 
   return (
     <div className="ExercisesPage">

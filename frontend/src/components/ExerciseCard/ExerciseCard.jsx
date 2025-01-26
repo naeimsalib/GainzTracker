@@ -5,13 +5,17 @@ export default function ExerciseCard({ exercise, onEdit, onDelete, onShare }) {
   async function handleShare() {
     try {
       await shareExercise(exercise._id);
-      alert("Exercise shared successfully! 🎉");
-      if (onShare) onShare(exercise._id);
+      if (onShare) {
+        onShare(exercise._id);
+      } else {
+        alert("Exercise shared successfully! 🎉"); // ✅ Ensure it runs only once
+      }
     } catch (err) {
       console.error("Error sharing exercise:", err);
       alert("Failed to share exercise.");
     }
   }
+  
 
   return (
     <div className="exercise-card">
