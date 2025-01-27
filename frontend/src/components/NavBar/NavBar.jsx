@@ -1,10 +1,11 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { logOut } from '../../services/authService';
 import './NavBar.css';
 
 export default function NavBar({ user, setUser }) {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  
   function handleLogOut() {
     logOut();
     setUser(null);
