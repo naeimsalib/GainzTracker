@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { getUser } from "../../services/authService";
 import "./App.css";
 
@@ -30,9 +30,14 @@ export default function App() {
     navigate("/"); // Redirect to Home Page after login
   }
 
+  function handleLogout() {
+    setUser(null);
+    navigate("/login"); // ✅ Redirect to login page after logout
+  }
+
   return (
     <main className="App">
-      <NavBar user={user} setUser={setUser} />
+      <NavBar user={user} setUser={handleLogout} />
       <section id="main-section">
         <Routes>
           {/* Public Routes */}
@@ -40,8 +45,11 @@ export default function App() {
           <Route path="/signup" element={<SignUpPage setUser={handleLogin} />} />
           <Route path="/login" element={<LogInPage setUser={handleLogin} />} />
 
+          {/* Always Accessible Community Page */}
+          <Route path="/community" element={<CommunityPage />} />
+
           {/* Protected Routes (Only accessible when logged in) */}
-          {user && (
+          {user ? (
             <>
               {/* Workouts */}
               <Route path="/workouts" element={<WorkoutPage />} />
@@ -54,10 +62,9 @@ export default function App() {
               <Route path="/exercises/new" element={<AddExercisePage />} />
               <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
               <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
-
-              {/* Community */}
-              <Route path="/community" element={<CommunityPage />} />
-            </> 
+            </>
+          ) : (
+            <Route path="*" element={<Navigate to="/login" />} />
           )}
         </Routes>
       </section>
