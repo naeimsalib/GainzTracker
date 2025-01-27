@@ -9,13 +9,19 @@ export async function getWorkouts() {
 
 // Get single workout with exercises
 export async function getWorkout(id) {
-  return sendRequest(`${BASE_URL}/${id}`, 'GET');
+  return sendRequest(`${BASE_URL}/${id}?populate=exercises`, 'GET');
 }
 
 // Create a workout
 export async function createWorkout(workoutData) {
   console.log('Creating workout:', workoutData); // ✅ Debugging
   return sendRequest(BASE_URL, 'POST', workoutData);
+}
+
+export async function addExercisesToWorkout(workoutId, exerciseIds) {
+  return sendRequest(`${BASE_URL}/${workoutId}/add-exercises`, 'PUT', {
+    exercises: exerciseIds,
+  });
 }
 
 // Update a workout

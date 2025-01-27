@@ -45,15 +45,18 @@ export default function WorkoutForm({ handleSubmit }) {
 
   function onSubmit(e) {
     e.preventDefault();
-
-    console.log("Form Data Before Submission:", formData); // Debugging
-
+  
+    console.log("Form Data Before Submission:", formData);
+  
     if (!formData.title.trim() || !formData.duration) {
       alert("Title and Duration are required!");
       return;
     }
 
-    handleSubmit(formData);
+    handleSubmit({
+      ...formData,
+      exercises: formData.exercises.map(ex => ex._id),
+    });
   }
 
   return (

@@ -7,6 +7,7 @@ module.exports = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
+  addExercisesToWorkout, // ✅ Make sure this function is exported
 };
 
 // ✅ Get all workouts with exercises populated
@@ -34,11 +35,9 @@ async function getWorkoutById(req, res) {
   }
 }
 
-// ✅ Create a new workout with exercises
+// ✅ Create a new workout
 async function createWorkout(req, res) {
   try {
-    console.log('Received Workout Data:', req.body);
-
     const { title, dayOfWeek, workoutType, duration, exercises } = req.body;
 
     if (!title || !dayOfWeek || !workoutType || !duration) {
@@ -64,24 +63,13 @@ async function createWorkout(req, res) {
 // ✅ Update a workout with new exercises
 async function updateWorkout(req, res) {
   try {
-    const { exercises } = req.body;
-
-    // Validate exercise IDs
-    if (exercises && !exercises.every((id) => Exercise.exists({ _id: id }))) {
-      return res
-        .status(400)
-        .json({ message: 'Invalid exercise ID(s) provided' });
-    }
-
     const updatedWorkout = await Workout.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     ).populate('exercises');
-
     if (!updatedWorkout)
       return res.status(404).json({ message: 'Workout not found' });
-
     res.json(updatedWorkout);
   } catch (err) {
     console.error('Error Updating Workout:', err);
@@ -94,10 +82,44 @@ async function deleteWorkout(req, res) {
   try {
     const workout = await Workout.findByIdAndDelete(req.params.id);
     if (!workout) return res.status(404).json({ message: 'Workout not found' });
-
     res.json({ message: 'Workout deleted successfully' });
   } catch (err) {
     console.error('Error Deleting Workout:', err);
     res.status(500).json({ message: 'Failed to delete workout' });
+  }
+}
+
+// ✅ Add Exercises to a Workout
+async function addExercisesToWorkout(req, res) {
+  try {
+    const { exercises } = req.body; // List of exercise IDs
+    if (!Array.isArray(exercises) || exercises.length === 0) {
+      return res.status(400).json({ message: 'Invalid exercise list' });
+    }
+
+    const workout = await Workout.findById(req.params.id);
+    if (!workout) {
+      return res.status(404).json({ message: 'Workout not found' });
+    }
+
+    // ✅ Check if each exercise exists
+    const existingExercises = await Exercise.find({ _id: { $in: exercises } });
+    if (existingExercises.length !== exercises.length) {
+      return res
+        .status(400)
+        .json({ message: 'One or more exercises do not exist' });
+    }
+
+    // ✅ Add unique exercises
+    const newExercises = exercises.filter(
+      (ex) => !workout.exercises.includes(ex)
+    );
+    workout.exercises.push(...newExercises);
+
+    await workout.save();
+    res.json(workout);
+  } catch (err) {
+    console.error('Error Adding Exercises:', err);
+    res.status(500).json({ message: 'Failed to add exercises to workout' });
   }
 }

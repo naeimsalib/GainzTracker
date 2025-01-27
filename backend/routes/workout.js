@@ -10,4 +10,11 @@ router.post('/', ensureLoggedIn, workoutCtrl.createWorkout);
 router.put('/:id', ensureLoggedIn, workoutCtrl.updateWorkout);
 router.delete('/:id', ensureLoggedIn, workoutCtrl.deleteWorkout);
 
+// ✅ Add this missing PUT route to add exercises to a workout
+router.put(
+  '/:id/add-exercises',
+  ensureLoggedIn,
+  workoutCtrl.addExercisesToWorkout
+);
+
 module.exports = router;
