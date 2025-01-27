@@ -30,7 +30,7 @@ export default function WorkoutForm({ handleSubmit }) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "duration" ? Number(value) : value, // Convert duration to number
     }));
   }
   
@@ -45,6 +45,14 @@ export default function WorkoutForm({ handleSubmit }) {
 
   function onSubmit(e) {
     e.preventDefault();
+
+    console.log("Form Data Before Submission:", formData); // Debugging
+
+    if (!formData.title.trim() || !formData.duration) {
+      alert("Title and Duration are required!");
+      return;
+    }
+
     handleSubmit(formData);
   }
 
@@ -52,17 +60,16 @@ export default function WorkoutForm({ handleSubmit }) {
     <div className="workout-form-container">
       <h1>Create a Workout</h1>
       <form onSubmit={onSubmit} className="workout-form">
-        {/* Other Inputs */}
         <div className="form-group">
-          <label>Select Exercises</label>
-          <select multiple name="exercises" value={formData.exercises} onChange={handleExerciseSelection}>
-            {availableExercises.map((exercise) => (
-              <option key={exercise._id} value={exercise._id}>
-                {exercise.name}
-              </option>
-            ))}
-          </select>
+          <label>Title</label>
+          <input type="text" name="title" value={formData.title} onChange={handleChange} required />
         </div>
+
+        <div className="form-group">
+          <label>Duration (Minutes)</label>
+          <input type="number" name="duration" value={formData.duration} onChange={handleChange} required />
+        </div>
+
         <button type="submit">Save Workout</button>
       </form>
     </div>
