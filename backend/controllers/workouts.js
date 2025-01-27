@@ -27,15 +27,11 @@ async function getAllWorkouts(req, res) {
 // ✅ Fetch all workouts that are shared with the community
 async function getSharedWorkouts(req, res) {
   try {
-    const sharedWorkouts = await Workout.find({
-      sharedWithCommunity: true,
-    }).populate('user', 'name');
+    const sharedWorkouts = await Workout.find({ sharedWithCommunity: true }).populate('user', 'name');
     res.json(sharedWorkouts);
   } catch (err) {
     console.error('Error Fetching Shared Workouts:', err);
-    res
-      .status(500)
-      .json({ message: 'Failed to fetch shared workouts', error: err.message });
+    res.status(500).json({ message: 'Failed to fetch shared workouts', error: err.message });
   }
 }
 
