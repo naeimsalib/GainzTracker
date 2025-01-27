@@ -7,7 +7,8 @@ module.exports = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
-  addExercisesToWorkout, // ✅ Make sure this function is exported
+  addExercisesToWorkout,
+  getSharedWorkouts,
 };
 
 // ✅ Get all workouts with exercises populated
@@ -20,6 +21,21 @@ async function getAllWorkouts(req, res) {
   } catch (err) {
     console.error('Error Fetching Workouts:', err);
     res.status(500).json({ message: 'Failed to fetch workouts' });
+  }
+}
+
+// ✅ Fetch all workouts that are shared with the community
+async function getSharedWorkouts(req, res) {
+  try {
+    const sharedWorkouts = await Workout.find({
+      sharedWithCommunity: true,
+    }).populate('user', 'name');
+    res.json(sharedWorkouts);
+  } catch (err) {
+    console.error('Error Fetching Shared Workouts:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch shared workouts', error: err.message });
   }
 }
 

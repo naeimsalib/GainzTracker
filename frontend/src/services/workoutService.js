@@ -41,5 +41,5 @@ export async function shareWorkout(id) {
 
 // Get shared workouts
 export async function getSharedWorkouts() {
-  return sendRequest(`${BASE_URL}/community`);
+  return sendRequest('/api/workouts/community');
 }
