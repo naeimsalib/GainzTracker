@@ -16,6 +16,7 @@ import CommunityPage from "../CommunityPage/CommunityPage";
 import WorkoutDetailPage from "../WorkoutDetailPage/WorkoutDetailPage";
 import ExerciseDetailPage from "../ExerciseDetailPage/ExerciseDetailPage";
 import EditWorkoutPage from "../EditWorkoutPage/EditWorkoutPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 // Importing Components
 import NavBar from "../../components/NavBar/NavBar";
@@ -62,6 +63,10 @@ export default function App() {
               <Route path="/exercises/new" element={<AddExercisePage />} />
               <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
               <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
+              
+              {/* Profile */} 
+              <Route path="/profile" element={<ProfilePage />} />
+
             </>
           ) : (
             <Route path="*" element={<Navigate to="/login" />} />

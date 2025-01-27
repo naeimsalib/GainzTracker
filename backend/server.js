@@ -29,6 +29,7 @@ app.use(require('./middleware/ensureLoggedIn'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercise'));
 app.use('/api/workouts', require('./routes/workout'));
+app.use('/api/profile', require('./routes/profile'));
 
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get('*', function (req, res) {

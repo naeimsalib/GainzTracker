@@ -5,7 +5,7 @@ import './NavBar.css';
 export default function NavBar({ user, setUser }) {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   function handleLogOut() {
     logOut();
     setUser(null);
@@ -30,7 +30,10 @@ export default function NavBar({ user, setUser }) {
             <NavLink to="/exercises" className="nav-btn">Exercises</NavLink>
             <NavLink to="/community" className="nav-btn">Community</NavLink>
             <button onClick={handleLogOut} className="nav-btn logout">Log Out</button>
-            <span className="welcome-message">Welcome, {user.name}</span>
+            <span className="welcome-message">
+              <NavLink to="/profile">Welcome, {user.name}</NavLink>
+            </span>
+
           </>
         ) : (
           <>
