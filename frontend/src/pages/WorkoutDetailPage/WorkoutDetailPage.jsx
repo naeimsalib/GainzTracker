@@ -42,14 +42,16 @@ export default function WorkoutDetailPage() {
       <h2>Exercises</h2>
       {workout.exercises.length > 0 ? (
         <div className="exercise-list">
-          {workout.exercises.map((exercise) => (
-            <div key={exercise._id} className="exercise-card">
-              <h3>{exercise.name}</h3>
-              <p><strong>Category:</strong> {exercise.category}</p>
-              <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
-            </div>
-          ))}
-        </div>
+  {workout.exercises.map((exercise) => (
+    <div key={exercise._id} className="exercise-card">
+      <h3>{exercise.name}</h3>
+      <p><strong>Category:</strong> {exercise.category}</p>
+      <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+      <p><strong>Equipment:</strong> {exercise.equipment || "None"}</p>
+      <p><strong>Difficulty Level:</strong> {exercise.difficultyLevel}</p>
+    </div>
+  ))}
+</div>
       ) : (
         <p>No exercises linked to this workout.</p>
       )}

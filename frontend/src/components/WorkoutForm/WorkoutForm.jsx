@@ -30,9 +30,10 @@ export default function WorkoutForm({ handleSubmit }) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "duration" || name === "intensityLevel" ? Number(value) : value,
+      [name]: value,
     }));
   }
+  
 
   function handleExerciseSelection(e) {
     const selectedExercises = Array.from(e.target.selectedOptions, (option) => option.value);

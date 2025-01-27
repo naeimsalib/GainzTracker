@@ -37,7 +37,7 @@ async function getWorkoutById(req, res) {
 // ✅ Create a new workout with exercises
 async function createWorkout(req, res) {
   try {
-    console.log('Received Workout Data:', req.body); // ✅ Debugging
+    console.log('Received Workout Data:', req.body);
 
     const { title, dayOfWeek, workoutType, duration, exercises } = req.body;
 
@@ -49,7 +49,7 @@ async function createWorkout(req, res) {
       title,
       dayOfWeek,
       workoutType,
-      duration: Number(duration), // Ensure it's a number
+      duration: Number(duration),
       exercises: exercises || [],
       user: req.user._id,
     });
@@ -57,9 +57,7 @@ async function createWorkout(req, res) {
     res.status(201).json(newWorkout);
   } catch (err) {
     console.error('Error Creating Workout:', err);
-    res
-      .status(500)
-      .json({ message: 'Failed to create workout', error: err.message });
+    res.status(500).json({ message: 'Failed to create workout' });
   }
 }
 
