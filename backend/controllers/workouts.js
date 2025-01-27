@@ -9,6 +9,7 @@ module.exports = {
   deleteWorkout,
   addExercisesToWorkout,
   getSharedWorkouts,
+  saveWorkout,
 };
 
 // ✅ Get all workouts with exercises populated
@@ -27,11 +28,15 @@ async function getAllWorkouts(req, res) {
 // ✅ Fetch all workouts that are shared with the community
 async function getSharedWorkouts(req, res) {
   try {
-    const sharedWorkouts = await Workout.find({ sharedWithCommunity: true }).populate('user', 'name');
+    const sharedWorkouts = await Workout.find({
+      sharedWithCommunity: true,
+    }).populate('user', 'name');
     res.json(sharedWorkouts);
   } catch (err) {
     console.error('Error Fetching Shared Workouts:', err);
-    res.status(500).json({ message: 'Failed to fetch shared workouts', error: err.message });
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch shared workouts', error: err.message });
   }
 }
 
@@ -101,37 +106,32 @@ async function deleteWorkout(req, res) {
   }
 }
 
-// ✅ Add Exercises to a Workout
-async function addExercisesToWorkout(req, res) {
+// ✅ Save a shared workout to user account
+async function saveWorkout(req, res) {
   try {
-    const { exercises } = req.body; // List of exercise IDs
-    if (!Array.isArray(exercises) || exercises.length === 0) {
-      return res.status(400).json({ message: 'Invalid exercise list' });
-    }
-
-    const workout = await Workout.findById(req.params.id);
-    if (!workout) {
+    const originalWorkout = await Workout.findById(req.params.id).populate(
+      'exercises'
+    );
+    if (!originalWorkout) {
       return res.status(404).json({ message: 'Workout not found' });
     }
 
-    // ✅ Check if each exercise exists
-    const existingExercises = await Exercise.find({ _id: { $in: exercises } });
-    if (existingExercises.length !== exercises.length) {
-      return res
-        .status(400)
-        .json({ message: 'One or more exercises do not exist' });
-    }
+    const newWorkout = new Workout({
+      title: originalWorkout.title,
+      dayOfWeek: originalWorkout.dayOfWeek,
+      workoutType: originalWorkout.workoutType,
+      duration: originalWorkout.duration,
+      exercises: originalWorkout.exercises.map((ex) => ex._id),
+      user: req.user._id,
+      notes: originalWorkout.notes,
+      intensityLevel: originalWorkout.intensityLevel,
+      sharedWithCommunity: false, // The copied workout is private
+    });
 
-    // ✅ Add unique exercises
-    const newExercises = exercises.filter(
-      (ex) => !workout.exercises.includes(ex)
-    );
-    workout.exercises.push(...newExercises);
-
-    await workout.save();
-    res.json(workout);
+    await newWorkout.save();
+    res.status(201).json(newWorkout);
   } catch (err) {
-    console.error('Error Adding Exercises:', err);
-    res.status(500).json({ message: 'Failed to add exercises to workout' });
+    console.error('Error Saving Workout:', err);
+    res.status(500).json({ message: 'Failed to save workout' });
   }
 }
