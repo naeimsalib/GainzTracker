@@ -12,8 +12,11 @@ router.get('/:id', ensureLoggedIn, workoutCtrl.getWorkoutById);
 router.post('/', ensureLoggedIn, workoutCtrl.createWorkout);
 router.put('/:id', ensureLoggedIn, workoutCtrl.updateWorkout);
 router.delete('/:id', ensureLoggedIn, workoutCtrl.deleteWorkout);
-
-// route for saving workouts
 router.post('/:id/save', ensureLoggedIn, workoutCtrl.saveWorkout);
+router.put(
+  '/:id/add-exercises',
+  ensureLoggedIn,
+  workoutCtrl.addExercisesToWorkout
+);
 
 module.exports = router;

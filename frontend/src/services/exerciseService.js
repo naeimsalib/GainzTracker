@@ -35,3 +35,7 @@ export async function shareExercise(id) {
 export async function getSharedExercises() {
   return sendRequest(`${BASE_URL}/community`);
 }
+// Save a shared exercise to the user's account
+export async function saveExercise(id) {
+  return sendRequest(`${BASE_URL}/${id}/save`, 'POST');
+}
