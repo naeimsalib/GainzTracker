@@ -21,13 +21,13 @@ const ProfilePage = () => {
       return;
     }
 
-    fetch("/api/user/profile", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Add Authorization header
-      },
-    })
+    fetch("/api/profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
+      })
       .then((res) => {
         if (res.status === 401) {
           throw new Error("Unauthorized access. Please log in again.");
