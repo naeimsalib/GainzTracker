@@ -1,112 +1,137 @@
-import { useState, useEffect } from 'react';
-import { getProfile, updateProfile } from '../../services/userService';
+import React, { useState, useEffect } from "react";
 
-export default function ProfilePage() {
+const ProfilePage = () => {
   const [profile, setProfile] = useState({
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     fitnessPreferences: {
-      workoutTypes: [],  // Ensures array is never undefined
-      intensityLevel: 5, // Default number
-      preferredEquipment: [], // Ensures array is never undefined
+      workoutTypes: [],
+      intensityLevel: 5,
+      preferredEquipment: [],
     },
   });
 
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const data = await getProfile();
-        
-        // Ensure fitnessPreferences always exist to prevent undefined error
+    const token = localStorage.getItem("token"); // Fetch token from localStorage or cookies
+
+    if (!token) {
+      setError("You must be logged in to access this page.");
+      return;
+    }
+
+    fetch("/api/user/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Add Authorization header
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error("Unauthorized access. Please log in again.");
+        }
+        return res.json();
+      })
+      .then((data) => {
         setProfile({
-          name: data.name || '',
-          email: data.email || '',
+          name: data.name || "",
+          email: data.email || "",
           fitnessPreferences: {
-            workoutTypes: data.fitnessPreferences?.workoutTypes || [],
+            workoutTypes: Array.isArray(data.fitnessPreferences?.workoutTypes)
+              ? data.fitnessPreferences.workoutTypes
+              : [],
             intensityLevel: data.fitnessPreferences?.intensityLevel || 5,
-            preferredEquipment: data.fitnessPreferences?.preferredEquipment || [],
+            preferredEquipment: Array.isArray(data.fitnessPreferences?.preferredEquipment)
+              ? data.fitnessPreferences.preferredEquipment
+              : [],
           },
         });
-      } catch (err) {
-        console.error("Error fetching profile:", err);
-      }
-    }
-    fetchProfile();
+      })
+      .catch((err) => setError(err.message));
   }, []);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      await updateProfile(profile);
-      setMessage('Profile updated successfully!');
-    } catch (err) {
-      console.error(err);
-      setMessage('Error updating profile.');
-    }
-  }
-
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle nested fields correctly
-    if (name.includes('fitnessPreferences.')) {
-      const key = name.split('.')[1];
-      setProfile((prev) => ({
-        ...prev,
-        fitnessPreferences: {
-          ...prev.fitnessPreferences,
-          [key]: value,
-        },
-      }));
-    } else {
-      setProfile((prev) => ({
-        ...prev,
+    setProfile((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFitnessPreferenceChange = (e) => {
+    const { name, value } = e.target;
+
+    setProfile((prev) => ({
+      ...prev,
+      fitnessPreferences: {
+        ...prev.fitnessPreferences,
         [name]: value,
-      }));
-    }
-  }
+      },
+    }));
+  };
 
   return (
     <div>
-      <h1>Edit Profile</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Name</label>
-        <input type="text" name="name" value={profile.name} onChange={handleChange} required />
+      <h2>Profile Page</h2>
 
-        <label>Email</label>
-        <input type="email" name="email" value={profile.email} onChange={handleChange} required />
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <label>Preferred Workout Types (comma-separated)</label>
-        <input
-          type="text"
-          name="fitnessPreferences.workoutTypes"
-          value={profile.fitnessPreferences.workoutTypes.join(',')}
-          onChange={handleChange}
-        />
+      {!error && (
+        <form>
+          <label>Name:</label>
+          <input type="text" name="name" value={profile.name} onChange={handleChange} />
 
-        <label>Intensity Level (1-10)</label>
-        <input
-          type="number"
-          name="fitnessPreferences.intensityLevel"
-          value={profile.fitnessPreferences.intensityLevel}
-          onChange={handleChange}
-          min="1"
-          max="10"
-        />
+          <label>Email:</label>
+          <input type="email" name="email" value={profile.email} onChange={handleChange} />
 
-        <label>Preferred Equipment (comma-separated)</label>
-        <input
-          type="text"
-          name="fitnessPreferences.preferredEquipment"
-          value={profile.fitnessPreferences.preferredEquipment.join(',')}
-          onChange={handleChange}
-        />
+          <label>Workout Types (comma-separated):</label>
+          <input
+            type="text"
+            name="workoutTypes"
+            value={profile.fitnessPreferences.workoutTypes.join(", ")}
+            onChange={(e) =>
+              setProfile((prev) => ({
+                ...prev,
+                fitnessPreferences: {
+                  ...prev.fitnessPreferences,
+                  workoutTypes: e.target.value.split(",").map((item) => item.trim()),
+                },
+              }))
+            }
+          />
 
-        <button type="submit">Save</button>
-      </form>
-      {message && <p>{message}</p>}
+          <label>Preferred Equipment (comma-separated):</label>
+          <input
+            type="text"
+            name="preferredEquipment"
+            value={profile.fitnessPreferences.preferredEquipment.join(", ")}
+            onChange={(e) =>
+              setProfile((prev) => ({
+                ...prev,
+                fitnessPreferences: {
+                  ...prev.fitnessPreferences,
+                  preferredEquipment: e.target.value.split(",").map((item) => item.trim()),
+                },
+              }))
+            }
+          />
+
+          <label>Intensity Level:</label>
+          <input
+            type="number"
+            name="intensityLevel"
+            value={profile.fitnessPreferences.intensityLevel}
+            onChange={handleFitnessPreferenceChange}
+          />
+
+          <button type="submit">Save</button>
+        </form>
+      )}
     </div>
   );
-}
+};
+
+export default ProfilePage;
