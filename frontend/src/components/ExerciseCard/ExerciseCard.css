@@ -57,14 +57,16 @@
 }
 
 .share-btn {
-  flex: 1;
-  padding: 8px;
-  border-radius: 6px;
+  display: inline-block !important; /* ✅ Force visibility */
+  padding: 10px;
   border: none;
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
   font-size: 14px;
   font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .edit-btn {

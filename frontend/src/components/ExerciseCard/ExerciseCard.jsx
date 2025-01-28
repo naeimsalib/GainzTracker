@@ -5,17 +5,25 @@ import "./ExerciseCard.css";
 export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare }) {
   const navigate = useNavigate();
 
-  async function handleShare() {
+  if (!exercise) return null; // ✅ Avoid errors from undefined exercises
+
+  async function handleShare(e) {
+    e.stopPropagation();
     try {
-      if (exercise.sharedWithCommunity) {
-        await unshareExercise(exercise._id);
-        if (onShare) onShare(exercise._id, false);
-      } else {
-        await shareExercise(exercise._id);
-        if (onShare) onShare(exercise._id, true);
-      }
+      await shareExercise(exercise._id);
+      if (onShare) onShare(exercise._id, true);
     } catch (err) {
-      console.error("Error toggling share status:", err);
+      console.error("Error sharing exercise:", err);
+    }
+  }
+
+  async function handleUnshare(e) {
+    e.stopPropagation();
+    try {
+      await unshareExercise(exercise._id);
+      if (onShare) onShare(exercise._id, false);
+    } catch (err) {
+      console.error("Error unsharing exercise:", err);
     }
   }
 
@@ -28,16 +36,16 @@ export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare
 
       <div className="exercise-actions">
         <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
-        
-        {/* ✅ Share/Unshare button - Always visible to the owner */}
-        {user && user._id === exercise.user?._id && (
-          <button 
-            className={`share-btn ${exercise.sharedWithCommunity ? "unshare" : "share"}`}
-            onClick={(e) => { e.stopPropagation(); handleShare(); }}
-          >
-            {exercise.sharedWithCommunity ? "Unshare" : "Share"}
-          </button>
-        )}
+
+        <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
+
+        {/* Render the share button without any checks */}
+        <button
+          className={`share-btn ${exercise.sharedWithCommunity ? "unshare" : "share"}`}
+          onClick={exercise.sharedWithCommunity ? handleUnshare : handleShare}
+        >
+          {exercise.sharedWithCommunity ? "Unshare" : "Share"}
+        </button>
       </div>
     </div>
   );

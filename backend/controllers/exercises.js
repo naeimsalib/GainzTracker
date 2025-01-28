@@ -8,6 +8,7 @@ module.exports = {
   updateExercise,
   deleteExercise,
   shareExercise,
+  unshareExercise,
   getSharedExercises,
   saveExercise,
 };
@@ -86,6 +87,7 @@ async function deleteExercise(req, res) {
   }
 }
 
+//  PUT (Share) an Exercise
 async function shareExercise(req, res) {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -113,6 +115,36 @@ async function shareExercise(req, res) {
   }
 }
 
+//  PUT (Unshare) an Exercise
+async function unshareExercise(req, res) {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid Exercise ID format' });
+    }
+
+    const exercise = await Exercise.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { sharedWithCommunity: false },
+      { new: true }
+    );
+
+    if (!exercise) {
+      return res.status(404).json({
+        message:
+          "Exercise not found or you don't have permission to unshare it.",
+      });
+    }
+
+    res.json({ message: 'Exercise unshared successfully!', exercise });
+  } catch (err) {
+    console.error('Error unsharing exercise:', err);
+    res
+      .status(500)
+      .json({ message: 'Error unsharing exercise', error: err.message });
+  }
+}
+
+//  GET All Shared Exercises
 async function getSharedExercises(req, res) {
   try {
     const exercises = await Exercise.find({
@@ -125,6 +157,7 @@ async function getSharedExercises(req, res) {
   }
 }
 
+//  POST (Save) a Shared Exercise to User's Account
 async function saveExercise(req, res) {
   try {
     const exercise = await Exercise.findById(req.params.id);
@@ -152,19 +185,5 @@ async function saveExercise(req, res) {
   } catch (err) {
     console.error('Error saving exercise:', err);
     res.status(500).json({ message: 'Failed to save exercise' });
-  }
-}
-async function getExercises(req, res) {
-  try {
-    const exercises = await Exercise.find({ user: req.user._id });
-    if (!exercises) {
-      return res.status(404).json({ message: 'No exercises found' });
-    }
-    res.json(exercises);
-  } catch (err) {
-    console.error('Error fetching exercises:', err);
-    res
-      .status(500)
-      .json({ message: 'Failed to fetch exercises', error: err.message });
   }
 }

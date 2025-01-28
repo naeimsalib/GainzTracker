@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getWorkouts, deleteWorkout } from "../../services/workoutService";
+import { getWorkouts, deleteWorkout, shareWorkout, unshareWorkout } from "../../services/workoutService";
 import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
 import "./WorkoutPage.css";
 
@@ -20,12 +20,20 @@ export default function WorkoutPage() {
     fetchWorkouts();
   }, []);
 
-  async function handleDelete(id) {
+  async function handleShare(id, isShared) {
     try {
-      await deleteWorkout(id);
-      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id));
+      if (isShared) {
+        await shareWorkout(id);
+      } else {
+        await unshareWorkout(id);
+      }
+      setWorkouts((prevWorkouts) =>
+        prevWorkouts.map((workout) =>
+          workout._id === id ? { ...workout, sharedWithCommunity: isShared } : workout
+        )
+      );
     } catch (err) {
-      console.error("Error deleting workout:", err);
+      console.error("Error updating workout sharing status:", err);
     }
   }
 
@@ -43,7 +51,8 @@ export default function WorkoutPage() {
               key={workout._id}
               workout={workout}
               onEdit={(id) => navigate(`/workouts/${id}/edit`)}
-              onDelete={handleDelete}
+              onDelete={(id) => setWorkouts(workouts.filter((w) => w._id !== id))}
+              onShare={handleShare}
             />
           ))
         ) : (

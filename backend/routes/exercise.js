@@ -21,6 +21,9 @@ router.put('/:id', exercisesCtrl.updateExercise);
 // PUT (share an exercise)
 router.put('/:id/share', exercisesCtrl.shareExercise);
 
+// PUT (unshare an exercise)
+router.put('/:id/unshare', exercisesCtrl.unshareExercise);
+
 // DELETE an exercise
 router.delete('/:id', exercisesCtrl.deleteExercise);
 

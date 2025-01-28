@@ -26,7 +26,6 @@ app.use('/api/auth', require('./routes/auth'));
 app.use(require('./middleware/ensureLoggedIn'));
 
 // API Routes
-app.use('/api/auth', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercise'));
 app.use('/api/workouts', require('./routes/workout'));
 app.use('/api/profile', require('./routes/profile'));
