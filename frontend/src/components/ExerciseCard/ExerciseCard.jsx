@@ -2,19 +2,18 @@ import { useNavigate } from "react-router-dom";
 import { shareExercise, unshareExercise } from "../../services/exerciseService";
 import "./ExerciseCard.css";
 
-export default function ExerciseCard({ exercise, user, onEdit, onDelete }) {
+export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare }) {
   const navigate = useNavigate();
 
   async function handleShare() {
     try {
       if (exercise.sharedWithCommunity) {
         await unshareExercise(exercise._id);
+        if (onShare) onShare(exercise._id, false);
       } else {
         await shareExercise(exercise._id);
+        if (onShare) onShare(exercise._id, true);
       }
-
-      // Toggle the shared status (for immediate UI update)
-      exercise.sharedWithCommunity = !exercise.sharedWithCommunity;
     } catch (err) {
       console.error("Error toggling share status:", err);
     }
@@ -30,8 +29,8 @@ export default function ExerciseCard({ exercise, user, onEdit, onDelete }) {
       <div className="exercise-actions">
         <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
         
-        {/* ✅ Share/Unshare button - Only visible to the owner */}
-        {user && user._id === exercise.user._id && (
+        {/* ✅ Share/Unshare button - Always visible to the owner */}
+        {user && user._id === exercise.user?._id && (
           <button 
             className={`share-btn ${exercise.sharedWithCommunity ? "unshare" : "share"}`}
             onClick={(e) => { e.stopPropagation(); handleShare(); }}
