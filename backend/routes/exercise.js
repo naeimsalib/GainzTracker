@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const exercisesCtrl = require('../controllers/exercises');
+const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
 // GET all shared exercises
 router.get('/community', exercisesCtrl.getSharedExercises);
@@ -22,5 +23,8 @@ router.put('/:id/share', exercisesCtrl.shareExercise);
 
 // DELETE an exercise
 router.delete('/:id', exercisesCtrl.deleteExercise);
+
+// Save an exercise
+router.post('/:id/save', ensureLoggedIn, exercisesCtrl.saveExercise);
 
 module.exports = router;

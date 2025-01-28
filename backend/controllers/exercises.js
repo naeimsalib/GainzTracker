@@ -9,6 +9,7 @@ module.exports = {
   deleteExercise,
   shareExercise,
   getSharedExercises,
+  saveExercise,
 };
 
 //  GET All Exercises for Logged-in User
@@ -121,5 +122,35 @@ async function getSharedExercises(req, res) {
   } catch (err) {
     console.error('Error fetching shared exercises:', err);
     res.status(500).json({ message: 'Error retrieving shared exercises' });
+  }
+}
+
+async function saveExercise(req, res) {
+  try {
+    const exercise = await Exercise.findById(req.params.id);
+    if (!exercise) {
+      return res.status(404).json({ message: 'Exercise not found' });
+    }
+
+    // Clone the exercise for the logged-in user
+    const savedExercise = new Exercise({
+      name: exercise.name,
+      category: exercise.category,
+      muscleGroup: exercise.muscleGroup,
+      equipment: exercise.equipment,
+      difficultyLevel: exercise.difficultyLevel,
+      sets: exercise.sets,
+      reps: exercise.reps,
+      restTime: exercise.restTime,
+      video: exercise.video,
+      notes: exercise.notes,
+      user: req.user._id, // Assign to the logged-in user
+    });
+
+    await savedExercise.save();
+    res.json(savedExercise);
+  } catch (err) {
+    console.error('Error saving exercise:', err);
+    res.status(500).json({ message: 'Failed to save exercise' });
   }
 }

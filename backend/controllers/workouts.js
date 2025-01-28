@@ -64,18 +64,20 @@ async function createWorkout(req, res) {
 // ✅ Update an existing workout
 async function updateWorkout(req, res) {
   try {
-    const updatedWorkout = await Workout.findByIdAndUpdate(
-      req.params.id,
+    const workout = await Workout.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id }, // Ensure user can only edit their workouts
       req.body,
       { new: true }
-    ).populate('exercises');
+    );
 
-    if (!updatedWorkout)
-      return res.status(404).json({ message: 'Workout not found' });
-
-    res.json(updatedWorkout);
+    if (!workout) {
+      return res
+        .status(404)
+        .json({ message: 'Workout not found or unauthorized' });
+    }
+    res.json(workout);
   } catch (err) {
-    console.error('Error Updating Workout:', err);
+    console.error('Error updating workout:', err);
     res.status(500).json({ message: 'Failed to update workout' });
   }
 }
