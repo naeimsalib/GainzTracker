@@ -18,5 +18,5 @@ router.put(
   ensureLoggedIn,
   workoutCtrl.addExercisesToWorkout
 );
-
+router.put('/:id/share', ensureLoggedIn, workoutCtrl.shareWorkout);
 module.exports = router;
