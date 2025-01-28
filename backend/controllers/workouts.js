@@ -40,7 +40,14 @@ async function getWorkoutById(req, res) {
 // ✅ Create a new workout
 async function createWorkout(req, res) {
   try {
-    const { title, dayOfWeek, workoutType, duration, exercises } = req.body;
+    const {
+      title,
+      dayOfWeek,
+      workoutType,
+      duration,
+      exercises,
+      sharedWithCommunity,
+    } = req.body;
     if (!title || !dayOfWeek || !workoutType || !duration) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
@@ -51,12 +58,13 @@ async function createWorkout(req, res) {
       workoutType,
       duration: Number(duration),
       exercises: exercises || [],
+      sharedWithCommunity: sharedWithCommunity || false, // Allow sharing at creation
       user: req.user._id,
     });
 
     res.status(201).json(newWorkout);
   } catch (err) {
-    console.error('Error Creating Workout:', err);
+    console.error('Error creating workout:', err);
     res.status(500).json({ message: 'Failed to create workout' });
   }
 }
@@ -217,5 +225,22 @@ async function getSavedWorkouts(req, res) {
   } catch (err) {
     console.error('Error fetching saved workouts:', err);
     res.status(500).json({ message: 'Failed to fetch saved workouts' });
+  }
+}
+
+async function getWorkouts(req, res) {
+  try {
+    const workouts = await Workout.find({ user: req.user._id }).populate(
+      'exercises'
+    );
+    if (!workouts) {
+      return res.status(404).json({ message: 'No workouts found' });
+    }
+    res.json(workouts);
+  } catch (err) {
+    console.error('Error fetching workouts:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch workouts', error: err.message });
   }
 }

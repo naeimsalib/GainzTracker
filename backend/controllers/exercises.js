@@ -154,3 +154,17 @@ async function saveExercise(req, res) {
     res.status(500).json({ message: 'Failed to save exercise' });
   }
 }
+async function getExercises(req, res) {
+  try {
+    const exercises = await Exercise.find({ user: req.user._id });
+    if (!exercises) {
+      return res.status(404).json({ message: 'No exercises found' });
+    }
+    res.json(exercises);
+  } catch (err) {
+    console.error('Error fetching exercises:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch exercises', error: err.message });
+  }
+}

@@ -27,7 +27,7 @@ const WorkoutSchema = new Schema(
     exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
     notes: { type: String },
     intensityLevel: { type: Number, min: 1, max: 10 },
-    sharedWithCommunity: { type: Boolean, default: false },
+    sharedWithCommunity: { type: Boolean, default: false }, // Ensuring default value
   },
   { timestamps: true }
 );
