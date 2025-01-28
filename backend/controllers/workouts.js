@@ -207,3 +207,15 @@ async function unshareWorkout(req, res) {
     res.status(500).json({ message: 'Failed to unshare workout' });
   }
 }
+
+async function getSavedWorkouts(req, res) {
+  try {
+    const savedWorkouts = await Workout.find({ user: req.user._id }).populate(
+      'exercises'
+    );
+    res.json(savedWorkouts);
+  } catch (err) {
+    console.error('Error fetching saved workouts:', err);
+    res.status(500).json({ message: 'Failed to fetch saved workouts' });
+  }
+}
