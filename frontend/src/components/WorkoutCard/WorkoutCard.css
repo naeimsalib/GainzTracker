@@ -66,6 +66,11 @@
   color: white;
 }
 
+.unshare-btn {
+  background-color: #ff4d4d;
+  color: white;
+}
+
 .edit-btn {
   background-color: #ffa500;
   color: white;
@@ -73,6 +78,10 @@
 
 .share-btn:hover {
   background-color: #0056b3;
+}
+
+.unshare-btn:hover {
+  background-color: darkred;
 }
 
 .edit-btn:hover {

@@ -2,26 +2,19 @@ import sendRequest from './sendRequest';
 
 const BASE_URL = '/api/workouts';
 
-// Get all workouts
+// Fetch all workouts for logged-in user
 export async function getWorkouts() {
-  return sendRequest(BASE_URL, 'GET');
+  return sendRequest(BASE_URL);
 }
 
-// Get single workout with exercises
+// Fetch a single workout by ID
 export async function getWorkout(id) {
-  return sendRequest(`${BASE_URL}/${id}?populate=exercises`, 'GET');
+  return sendRequest(`${BASE_URL}/${id}`);
 }
 
-// Create a workout
+// Create a new workout
 export async function createWorkout(workoutData) {
-  console.log('Creating workout:', workoutData); // ✅ Debugging
   return sendRequest(BASE_URL, 'POST', workoutData);
-}
-
-export async function addExercisesToWorkout(workoutId, exerciseIds) {
-  return sendRequest(`${BASE_URL}/${workoutId}/add-exercises`, 'PUT', {
-    exercises: exerciseIds,
-  });
 }
 
 // Update a workout
@@ -39,12 +32,23 @@ export async function shareWorkout(id) {
   return sendRequest(`${BASE_URL}/${id}/share`, 'PUT');
 }
 
-// Get shared workouts
+// Unshare a workout
+export async function unshareWorkout(id) {
+  return sendRequest(`${BASE_URL}/${id}/unshare`, 'PUT');
+}
+
+// Fetch shared workouts
 export async function getSharedWorkouts() {
   return sendRequest(`${BASE_URL}/community`);
 }
 
-// Save a shared workout to the user's account
+//save a shared workout to the user's account
 export async function saveWorkout(id) {
   return sendRequest(`${BASE_URL}/${id}/save`, 'POST');
+}
+
+export async function addExercisesToWorkout(workoutId, exerciseIds) {
+  return sendRequest(`${BASE_URL}/${workoutId}/add-exercises`, 'PUT', {
+    exercises: exerciseIds,
+  });
 }

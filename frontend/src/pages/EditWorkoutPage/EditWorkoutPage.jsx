@@ -24,7 +24,7 @@ export default function EditWorkoutPage() {
   async function handleUpdateWorkout(updatedData) {
     try {
       await updateWorkout(id, updatedData);
-      navigate("/workouts");
+      navigate("/workouts"); // Redirect back to workouts page
     } catch (err) {
       console.error("Error updating workout:", err);
     }

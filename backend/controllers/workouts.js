@@ -30,10 +30,13 @@ async function getAllWorkouts(req, res) {
   }
 }
 
-// ✅ Fetch a single workout
+// ✅ Fetch a single workout by ID
 async function getWorkoutById(req, res) {
   try {
-    const workout = await Workout.findById(req.params.id).populate('exercises');
+    const workout = await Workout.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    }).populate('exercises');
     if (!workout) return res.status(404).json({ message: 'Workout not found' });
     res.json(workout);
   } catch (err) {
@@ -44,7 +47,7 @@ async function getWorkoutById(req, res) {
   }
 }
 
-// ✅ Create a workout
+// ✅ Create a new workout
 async function createWorkout(req, res) {
   try {
     const {
@@ -105,12 +108,19 @@ async function updateWorkout(req, res) {
 // ✅ Delete a workout
 async function deleteWorkout(req, res) {
   try {
-    const workout = await Workout.findByIdAndDelete(req.params.id);
-    if (!workout) return res.status(404).json({ message: 'Workout not found' });
+    const workout = await Workout.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!workout)
+      return res
+        .status(404)
+        .json({ message: 'Workout not found or unauthorized' });
 
     res.json({ message: 'Workout deleted successfully' });
   } catch (err) {
-    console.error('Error Deleting Workout:', err);
+    console.error('Error deleting workout:', err);
     res
       .status(500)
       .json({ message: 'Failed to delete workout', error: err.message });
@@ -121,6 +131,7 @@ async function deleteWorkout(req, res) {
 async function addExercisesToWorkout(req, res) {
   try {
     const { exercises } = req.body;
+
     if (!Array.isArray(exercises) || exercises.length === 0) {
       return res.status(400).json({ message: 'Invalid exercise list' });
     }
@@ -128,6 +139,7 @@ async function addExercisesToWorkout(req, res) {
     const workout = await Workout.findById(req.params.id);
     if (!workout) return res.status(404).json({ message: 'Workout not found' });
 
+    // Ensure exercises exist
     const existingExercises = await Exercise.find({ _id: { $in: exercises } });
     if (existingExercises.length !== exercises.length) {
       return res
@@ -135,6 +147,7 @@ async function addExercisesToWorkout(req, res) {
         .json({ message: 'One or more exercises do not exist' });
     }
 
+    // Add new exercises only if they are not already in the workout
     const newExercises = exercises.filter(
       (ex) => !workout.exercises.includes(ex)
     );
@@ -143,7 +156,7 @@ async function addExercisesToWorkout(req, res) {
     await workout.save();
     res.json(workout);
   } catch (err) {
-    console.error('Error Adding Exercises:', err);
+    console.error('Error adding exercises:', err);
     res.status(500).json({
       message: 'Failed to add exercises to workout',
       error: err.message,
@@ -166,7 +179,7 @@ async function getSharedWorkouts(req, res) {
   }
 }
 
-// ✅ Save a shared workout to user's account
+// ✅ Save a shared workout to the user's account
 async function saveWorkout(req, res) {
   try {
     const sharedWorkout = await Workout.findById(req.params.id).populate(
@@ -203,15 +216,57 @@ async function shareWorkout(req, res) {
       { new: true }
     );
 
-    if (!workout)
+    if (!workout) {
       return res
         .status(404)
         .json({ message: 'Workout not found or unauthorized.' });
+    }
+
     res.json({ message: 'Workout shared successfully!', workout });
   } catch (err) {
     console.error('Error Sharing Workout:', err);
     res
       .status(500)
       .json({ message: 'Failed to share workout', error: err.message });
+  }
+}
+
+// ✅ Unshare a workout
+async function unshareWorkout(req, res) {
+  try {
+    const workout = await Workout.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { sharedWithCommunity: false },
+      { new: true }
+    );
+
+    if (!workout) {
+      return res
+        .status(404)
+        .json({ message: 'Workout not found or unauthorized.' });
+    }
+
+    res.json({ message: 'Workout unshared successfully!', workout });
+  } catch (err) {
+    console.error('Error Unsharing Workout:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to unshare workout', error: err.message });
+  }
+}
+
+// ✅ Fetch saved workouts
+async function getSavedWorkouts(req, res) {
+  try {
+    const savedWorkouts = await Workout.find({
+      user: req.user._id,
+      sharedWithCommunity: false,
+    }).populate('exercises');
+    res.json(savedWorkouts);
+  } catch (err) {
+    console.error('Error Fetching Saved Workouts:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch saved workouts', error: err.message });
   }
 }

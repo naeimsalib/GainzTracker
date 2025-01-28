@@ -20,8 +20,13 @@ export default function WorkoutPage() {
     fetchWorkouts();
   }, []);
 
-  function handleDelete(id) {
-    setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id));
+  async function handleDelete(id) {
+    try {
+      await deleteWorkout(id);
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id));
+    } catch (err) {
+      console.error("Error deleting workout:", err);
+    }
   }
 
   return (

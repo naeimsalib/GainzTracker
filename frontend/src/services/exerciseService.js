@@ -12,7 +12,7 @@ export async function getExerciseById(id) {
   return sendRequest(`${BASE_URL}/${id}`);
 }
 
-// 📌 Add a new exercise
+// 📌 Create a new exercise
 export async function createExercise(exerciseData) {
   return sendRequest(BASE_URL, 'POST', exerciseData);
 }
@@ -26,16 +26,23 @@ export async function updateExercise(id, exerciseData) {
 export async function deleteExercise(id) {
   return sendRequest(`${BASE_URL}/${id}`, 'DELETE');
 }
+
 // 📌 Share an exercise
 export async function shareExercise(id) {
-  if (!id) throw new Error('Exercise ID is required for sharing.');
   return sendRequest(`${BASE_URL}/${id}/share`, 'PUT');
 }
-// 📌 Fetch shared exercises
+
+// 📌 **Unshare an exercise**
+export async function unshareExercise(id) {
+  return sendRequest(`${BASE_URL}/${id}/unshare`, 'PUT');
+}
+
+// 📌 **Fetch shared exercises**
 export async function getSharedExercises() {
   return sendRequest(`${BASE_URL}/community`);
 }
-// Save a shared exercise to the user's account
+
+// 📌 **Save a shared exercise to the user's account (This was missing)**
 export async function saveExercise(id) {
   return sendRequest(`${BASE_URL}/${id}/save`, 'POST');
 }
