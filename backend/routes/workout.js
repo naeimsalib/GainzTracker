@@ -20,4 +20,6 @@ router.put(
 );
 router.put('/:id/share', ensureLoggedIn, workoutCtrl.shareWorkout);
 router.put('/:id/unshare', ensureLoggedIn, workoutCtrl.unshareWorkout);
+router.get('/saved', ensureLoggedIn, workoutCtrl.getSavedWorkouts);
+
 module.exports = router;
