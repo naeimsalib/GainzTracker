@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Fetch token from localStorage or cookies
+    const token = localStorage.getItem("token");
 
     if (!token) {
       setError("You must be logged in to access this page.");
@@ -22,12 +22,12 @@ const ProfilePage = () => {
     }
 
     fetch("/api/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
-        },
-      })
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => {
         if (res.status === 401) {
           throw new Error("Unauthorized access. Please log in again.");

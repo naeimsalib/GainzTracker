@@ -73,23 +73,6 @@ export default function EditExercisePage() {
           <option value="Advanced">Advanced</option>
         </select>
 
-        <div className="form-group">
-          <div className="input-group">
-            <label>Sets</label>
-            <input type="number" name="sets" value={exerciseData.sets} onChange={handleChange} required />
-          </div>
-
-          <div className="input-group">
-            <label>Reps</label>
-            <input type="number" name="reps" value={exerciseData.reps} onChange={handleChange} required />
-          </div>
-
-          <div className="input-group">
-            <label>Rest Time (s)</label>
-            <input type="number" name="restTime" value={exerciseData.restTime} onChange={handleChange} required />
-          </div>
-        </div>
-
         <label>Notes</label>
         <textarea name="notes" value={exerciseData.notes} onChange={handleChange}></textarea>
 
