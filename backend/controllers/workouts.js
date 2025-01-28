@@ -169,3 +169,22 @@ async function saveWorkout(req, res) {
     res.status(500).json({ message: 'Failed to save workout' });
   }
 }
+
+async function shareWorkout(req, res) {
+  try {
+    const workout = await Workout.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id }, // Ensure the user owns the workout
+      { sharedWithCommunity: true },
+      { new: true }
+    );
+    if (!workout) {
+      return res
+        .status(404)
+        .json({ message: 'Workout not found or unauthorized.' });
+    }
+    res.json({ message: 'Workout shared successfully!', workout });
+  } catch (err) {
+    console.error('Error sharing workout:', err);
+    res.status(500).json({ message: 'Failed to share workout' });
+  }
+}
