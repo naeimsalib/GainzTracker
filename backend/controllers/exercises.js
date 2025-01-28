@@ -19,7 +19,7 @@ async function getAllExercises(req, res) {
     const exercises = await Exercise.find({ user: req.user._id });
     res.json(exercises);
   } catch (err) {
-    console.error(err);
+    console.error('Error retrieving exercises:', err);
     res.status(500).json({ message: 'Error retrieving exercises' });
   }
 }
@@ -35,7 +35,7 @@ async function getExerciseById(req, res) {
       return res.status(404).json({ message: 'Exercise not found' });
     res.json(exercise);
   } catch (err) {
-    console.error(err);
+    console.error('Error retrieving the exercise:', err);
     res.status(500).json({ message: 'Error retrieving the exercise' });
   }
 }
@@ -49,7 +49,7 @@ async function createExercise(req, res) {
     });
     res.status(201).json(newExercise);
   } catch (err) {
-    console.error(err);
+    console.error('Error creating exercise:', err);
     res.status(400).json({ message: 'Error creating exercise' });
   }
 }
@@ -66,7 +66,7 @@ async function updateExercise(req, res) {
       return res.status(404).json({ message: 'Exercise not found' });
     res.json(updatedExercise);
   } catch (err) {
-    console.error(err);
+    console.error('Error updating exercise:', err);
     res.status(400).json({ message: 'Error updating exercise' });
   }
 }
@@ -82,7 +82,7 @@ async function deleteExercise(req, res) {
       return res.status(404).json({ message: 'Exercise not found' });
     res.json({ message: 'Exercise deleted successfully' });
   } catch (err) {
-    console.error(err);
+    console.error('Error deleting exercise:', err);
     res.status(400).json({ message: 'Error deleting exercise' });
   }
 }
@@ -152,7 +152,7 @@ async function getSharedExercises(req, res) {
     }).populate('user', 'name');
     res.json(exercises);
   } catch (err) {
-    console.error('Error fetching shared exercises:', err);
+    console.error('Error retrieving shared exercises:', err);
     res.status(500).json({ message: 'Error retrieving shared exercises' });
   }
 }

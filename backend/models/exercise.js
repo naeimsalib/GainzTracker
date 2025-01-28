@@ -28,6 +28,6 @@ const ExerciseSchema = new Schema(
   { timestamps: true }
 );
 
-const Exercise = mongoose.model('Exercise', ExerciseSchema);
-
-module.exports = Exercise;
+// Ensure the model is not redefined
+module.exports =
+  mongoose.models.Exercise || mongoose.model('Exercise', ExerciseSchema);

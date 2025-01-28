@@ -52,6 +52,7 @@ export default function CommunityPage({ user }) {
               <p><strong>Day:</strong> {workout.dayOfWeek}</p>
               <p><strong>Type:</strong> {workout.workoutType}</p>
               <p><strong>Duration:</strong> {workout.duration} minutes</p>
+              <p><strong>Shared by:</strong> {workout.user.name}</p>
               <button onClick={() => saveWorkout(workout._id)}>Save</button>
             </div>
           ))}
@@ -65,6 +66,7 @@ export default function CommunityPage({ user }) {
               <h3>{exercise.name}</h3>
               <p><strong>Category:</strong> {exercise.category}</p>
               <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+              <p><strong>Shared by:</strong> {exercise.user.name}</p>
               <button onClick={() => saveExercise(exercise._id)}>Save</button>
             </div>
           ))}

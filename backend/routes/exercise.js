@@ -7,25 +7,25 @@ const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 router.get('/community', exercisesCtrl.getSharedExercises);
 
 // GET all exercises for the logged-in user
-router.get('/', exercisesCtrl.getAllExercises);
+router.get('/', ensureLoggedIn, exercisesCtrl.getAllExercises);
 
 // GET a single exercise by ID
-router.get('/:id', exercisesCtrl.getExerciseById);
+router.get('/:id', ensureLoggedIn, exercisesCtrl.getExerciseById);
 
 // POST (create) a new exercise
-router.post('/', exercisesCtrl.createExercise);
+router.post('/', ensureLoggedIn, exercisesCtrl.createExercise);
 
 // PUT (update) an existing exercise
-router.put('/:id', exercisesCtrl.updateExercise);
+router.put('/:id', ensureLoggedIn, exercisesCtrl.updateExercise);
 
 // PUT (share an exercise)
-router.put('/:id/share', exercisesCtrl.shareExercise);
+router.put('/:id/share', ensureLoggedIn, exercisesCtrl.shareExercise);
 
 // PUT (unshare an exercise)
-router.put('/:id/unshare', exercisesCtrl.unshareExercise);
+router.put('/:id/unshare', ensureLoggedIn, exercisesCtrl.unshareExercise);
 
 // DELETE an exercise
-router.delete('/:id', exercisesCtrl.deleteExercise);
+router.delete('/:id', ensureLoggedIn, exercisesCtrl.deleteExercise);
 
 // Save an exercise
 router.post('/:id/save', ensureLoggedIn, exercisesCtrl.saveExercise);
