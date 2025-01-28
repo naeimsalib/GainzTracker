@@ -3,10 +3,10 @@ const router = express.Router();
 const workoutCtrl = require('../controllers/workouts');
 const ensureLoggedIn = require('../middleware/ensureLoggedIn');
 
-// Fetch shared workouts
+// ✅ Fetch shared workouts
 router.get('/community', ensureLoggedIn, workoutCtrl.getSharedWorkouts);
 
-// Existing workout routes
+// ✅ Existing workout routes
 router.get('/', ensureLoggedIn, workoutCtrl.getAllWorkouts);
 router.get('/:id', ensureLoggedIn, workoutCtrl.getWorkoutById);
 router.post('/', ensureLoggedIn, workoutCtrl.createWorkout);

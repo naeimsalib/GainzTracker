@@ -7,12 +7,15 @@ module.exports = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
-  addExercisesToWorkout, // ✅ Ensure this function exists
+  addExercisesToWorkout,
   getSharedWorkouts,
-  saveWorkout, // ✅ New function for saving community workouts
+  saveWorkout,
+  shareWorkout,
+  unshareWorkout,
+  getSavedWorkouts,
 };
 
-// ✅ Get all workouts
+// ✅ Fetch all workouts for the logged-in user
 async function getAllWorkouts(req, res) {
   try {
     const workouts = await Workout.find({ user: req.user._id }).populate(
@@ -21,11 +24,13 @@ async function getAllWorkouts(req, res) {
     res.json(workouts);
   } catch (err) {
     console.error('Error Fetching Workouts:', err);
-    res.status(500).json({ message: 'Failed to fetch workouts' });
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch workouts', error: err.message });
   }
 }
 
-// ✅ Get a specific workout
+// ✅ Fetch a single workout
 async function getWorkoutById(req, res) {
   try {
     const workout = await Workout.findById(req.params.id).populate('exercises');
@@ -33,11 +38,13 @@ async function getWorkoutById(req, res) {
     res.json(workout);
   } catch (err) {
     console.error('Error Fetching Workout:', err);
-    res.status(500).json({ message: 'Failed to fetch workout' });
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch workout', error: err.message });
   }
 }
 
-// ✅ Create a new workout
+// ✅ Create a workout
 async function createWorkout(req, res) {
   try {
     const {
@@ -48,6 +55,7 @@ async function createWorkout(req, res) {
       exercises,
       sharedWithCommunity,
     } = req.body;
+
     if (!title || !dayOfWeek || !workoutType || !duration) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
@@ -58,22 +66,24 @@ async function createWorkout(req, res) {
       workoutType,
       duration: Number(duration),
       exercises: exercises || [],
-      sharedWithCommunity: sharedWithCommunity || false, // Allow sharing at creation
+      sharedWithCommunity: sharedWithCommunity || false,
       user: req.user._id,
     });
 
     res.status(201).json(newWorkout);
   } catch (err) {
-    console.error('Error creating workout:', err);
-    res.status(500).json({ message: 'Failed to create workout' });
+    console.error('Error Creating Workout:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to create workout', error: err.message });
   }
 }
 
-// ✅ Update an existing workout
+// ✅ Update a workout
 async function updateWorkout(req, res) {
   try {
     const workout = await Workout.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id }, // Ensure user can only edit their workouts
+      { _id: req.params.id, user: req.user._id },
       req.body,
       { new: true }
     );
@@ -85,8 +95,10 @@ async function updateWorkout(req, res) {
     }
     res.json(workout);
   } catch (err) {
-    console.error('Error updating workout:', err);
-    res.status(500).json({ message: 'Failed to update workout' });
+    console.error('Error Updating Workout:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to update workout', error: err.message });
   }
 }
 
@@ -99,11 +111,13 @@ async function deleteWorkout(req, res) {
     res.json({ message: 'Workout deleted successfully' });
   } catch (err) {
     console.error('Error Deleting Workout:', err);
-    res.status(500).json({ message: 'Failed to delete workout' });
+    res
+      .status(500)
+      .json({ message: 'Failed to delete workout', error: err.message });
   }
 }
 
-// ✅ Add Exercises to a Workout
+// ✅ Add exercises to a workout
 async function addExercisesToWorkout(req, res) {
   try {
     const { exercises } = req.body;
@@ -112,11 +126,8 @@ async function addExercisesToWorkout(req, res) {
     }
 
     const workout = await Workout.findById(req.params.id);
-    if (!workout) {
-      return res.status(404).json({ message: 'Workout not found' });
-    }
+    if (!workout) return res.status(404).json({ message: 'Workout not found' });
 
-    // ✅ Ensure all exercises exist
     const existingExercises = await Exercise.find({ _id: { $in: exercises } });
     if (existingExercises.length !== exercises.length) {
       return res
@@ -124,7 +135,6 @@ async function addExercisesToWorkout(req, res) {
         .json({ message: 'One or more exercises do not exist' });
     }
 
-    // ✅ Add only new exercises
     const newExercises = exercises.filter(
       (ex) => !workout.exercises.includes(ex)
     );
@@ -134,32 +144,36 @@ async function addExercisesToWorkout(req, res) {
     res.json(workout);
   } catch (err) {
     console.error('Error Adding Exercises:', err);
-    res.status(500).json({ message: 'Failed to add exercises to workout' });
+    res.status(500).json({
+      message: 'Failed to add exercises to workout',
+      error: err.message,
+    });
   }
 }
 
-// ✅ Get shared workouts
+// ✅ Fetch shared workouts
 async function getSharedWorkouts(req, res) {
   try {
     const sharedWorkouts = await Workout.find({ sharedWithCommunity: true })
-      .populate('user', 'name') // Fetch user's name
-      .populate('exercises'); // Include exercise details
+      .populate('user', 'name')
+      .populate('exercises');
     res.json(sharedWorkouts);
   } catch (err) {
-    console.error('Error fetching shared workouts:', err);
-    res.status(500).json({ message: 'Failed to fetch shared workouts' });
+    console.error('Error Fetching Shared Workouts:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to fetch shared workouts', error: err.message });
   }
 }
 
-// ✅ Save a shared workout to a user's account
+// ✅ Save a shared workout to user's account
 async function saveWorkout(req, res) {
   try {
     const sharedWorkout = await Workout.findById(req.params.id).populate(
       'exercises'
     );
-    if (!sharedWorkout) {
+    if (!sharedWorkout)
       return res.status(404).json({ message: 'Workout not found' });
-    }
 
     const copiedWorkout = new Workout({
       title: sharedWorkout.title,
@@ -174,73 +188,30 @@ async function saveWorkout(req, res) {
     res.json(copiedWorkout);
   } catch (err) {
     console.error('Error Saving Workout:', err);
-    res.status(500).json({ message: 'Failed to save workout' });
+    res
+      .status(500)
+      .json({ message: 'Failed to save workout', error: err.message });
   }
 }
 
+// ✅ Share a workout
 async function shareWorkout(req, res) {
   try {
     const workout = await Workout.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id }, // Ensure the user owns the workout
+      { _id: req.params.id, user: req.user._id },
       { sharedWithCommunity: true },
       { new: true }
     );
-    if (!workout) {
+
+    if (!workout)
       return res
         .status(404)
         .json({ message: 'Workout not found or unauthorized.' });
-    }
     res.json({ message: 'Workout shared successfully!', workout });
   } catch (err) {
-    console.error('Error sharing workout:', err);
-    res.status(500).json({ message: 'Failed to share workout' });
-  }
-}
-
-async function unshareWorkout(req, res) {
-  try {
-    const workout = await Workout.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
-      { sharedWithCommunity: false },
-      { new: true }
-    );
-    if (!workout) {
-      return res
-        .status(404)
-        .json({ message: 'Workout not found or unauthorized.' });
-    }
-    res.json({ message: 'Workout unshared successfully!', workout });
-  } catch (err) {
-    console.error('Error unsharing workout:', err);
-    res.status(500).json({ message: 'Failed to unshare workout' });
-  }
-}
-
-async function getSavedWorkouts(req, res) {
-  try {
-    const savedWorkouts = await Workout.find({ user: req.user._id }).populate(
-      'exercises'
-    );
-    res.json(savedWorkouts);
-  } catch (err) {
-    console.error('Error fetching saved workouts:', err);
-    res.status(500).json({ message: 'Failed to fetch saved workouts' });
-  }
-}
-
-async function getWorkouts(req, res) {
-  try {
-    const workouts = await Workout.find({ user: req.user._id }).populate(
-      'exercises'
-    );
-    if (!workouts) {
-      return res.status(404).json({ message: 'No workouts found' });
-    }
-    res.json(workouts);
-  } catch (err) {
-    console.error('Error fetching workouts:', err);
+    console.error('Error Sharing Workout:', err);
     res
       .status(500)
-      .json({ message: 'Failed to fetch workouts', error: err.message });
+      .json({ message: 'Failed to share workout', error: err.message });
   }
 }
