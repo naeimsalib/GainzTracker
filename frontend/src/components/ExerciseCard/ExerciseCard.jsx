@@ -1,34 +1,44 @@
 import { useNavigate } from "react-router-dom";
+import { shareExercise, unshareExercise } from "../../services/exerciseService";
 import "./ExerciseCard.css";
-import { shareExercise } from "../../services/exerciseService";
 
-export default function ExerciseCard({ exercise, onEdit, onDelete, onShare }) {
+export default function ExerciseCard({ exercise, user, onEdit, onDelete }) {
   const navigate = useNavigate();
 
   async function handleShare() {
     try {
-      await shareExercise(exercise._id);
-      if (onShare) {
-        onShare(exercise._id);
+      if (exercise.sharedWithCommunity) {
+        await unshareExercise(exercise._id);
       } else {
-        alert("Exercise shared successfully! 🎉");
+        await shareExercise(exercise._id);
       }
+
+      // Toggle the shared status (for immediate UI update)
+      exercise.sharedWithCommunity = !exercise.sharedWithCommunity;
     } catch (err) {
-      console.error("Error sharing exercise:", err);
-      alert("Failed to share exercise.");
+      console.error("Error toggling share status:", err);
     }
   }
 
   return (
-    <div className="exercise-card" onClick={() => navigate(`/exercises/${exercise._id}`)}>
+    <div className="exercise-card">
       <button className="delete-btn" onClick={(e) => { e.stopPropagation(); onDelete(exercise._id); }}>X</button>
       <h3 className="exercise-title">{exercise.name}</h3>
       <p><strong>Category:</strong> {exercise.category}</p>
       <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
 
-      <div className="button-group">
-        <button className="share-btn" onClick={(e) => { e.stopPropagation(); handleShare(); }}>Share</button>
+      <div className="exercise-actions">
         <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
+        
+        {/* ✅ Share/Unshare button - Only visible to the owner */}
+        {user && user._id === exercise.user._id && (
+          <button 
+            className={`share-btn ${exercise.sharedWithCommunity ? "unshare" : "share"}`}
+            onClick={(e) => { e.stopPropagation(); handleShare(); }}
+          >
+            {exercise.sharedWithCommunity ? "Unshare" : "Share"}
+          </button>
+        )}
       </div>
     </div>
   );
