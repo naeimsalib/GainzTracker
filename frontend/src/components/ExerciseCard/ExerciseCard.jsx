@@ -36,9 +36,6 @@ export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare
 
       <div className="exercise-actions">
         <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
-
-        <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(exercise._id); }}>Edit</button>
-
         {/* Render the share button without any checks */}
         <button
           className={`share-btn ${exercise.sharedWithCommunity ? "unshare" : "share"}`}
