@@ -133,12 +133,12 @@ async function addExercisesToWorkout(req, res) {
 // ✅ Get shared workouts
 async function getSharedWorkouts(req, res) {
   try {
-    const sharedWorkouts = await Workout.find({
-      sharedWithCommunity: true,
-    }).populate('user', 'name');
+    const sharedWorkouts = await Workout.find({ sharedWithCommunity: true })
+      .populate('user', 'name') // Fetch user's name
+      .populate('exercises'); // Include exercise details
     res.json(sharedWorkouts);
   } catch (err) {
-    console.error('Error Fetching Shared Workouts:', err);
+    console.error('Error fetching shared workouts:', err);
     res.status(500).json({ message: 'Failed to fetch shared workouts' });
   }
 }
@@ -186,5 +186,24 @@ async function shareWorkout(req, res) {
   } catch (err) {
     console.error('Error sharing workout:', err);
     res.status(500).json({ message: 'Failed to share workout' });
+  }
+}
+
+async function unshareWorkout(req, res) {
+  try {
+    const workout = await Workout.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { sharedWithCommunity: false },
+      { new: true }
+    );
+    if (!workout) {
+      return res
+        .status(404)
+        .json({ message: 'Workout not found or unauthorized.' });
+    }
+    res.json({ message: 'Workout unshared successfully!', workout });
+  } catch (err) {
+    console.error('Error unsharing workout:', err);
+    res.status(500).json({ message: 'Failed to unshare workout' });
   }
 }
