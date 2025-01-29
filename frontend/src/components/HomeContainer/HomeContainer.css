@@ -24,8 +24,33 @@
   margin-top: 15px;
 }
 
-.home-image {
-  width: 150px;
-  height: auto;
+.workout-list {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: var(--light-shadow);
+}
+
+.workout-list h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.workout-item {
+  font-size: 1rem;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.workout-item:last-child {
+  border-bottom: none;
+}
+
+.no-workout-text {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
   margin-top: 15px;
 }
