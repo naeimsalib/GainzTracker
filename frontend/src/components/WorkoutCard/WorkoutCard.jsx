@@ -47,17 +47,6 @@ export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
           Edit
         </button>
 
-        {/* ✅ Added "Add Exercises" Button */}
-        <button
-          className="add-exercise-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/workouts/${workout._id}/add-exercises`);
-          }}
-        >
-          Add Exercises
-        </button>
-
         <button
           className={`share-btn ${workout.sharedWithCommunity ? "unshare" : "share"}`}
           onClick={workout.sharedWithCommunity ? handleUnshare : handleShare}

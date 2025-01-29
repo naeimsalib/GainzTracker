@@ -1,7 +1,8 @@
 .WorkoutPage {
   text-align: center;
-  max-width: 1400px;
-  margin: 50px auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .workout-grid {
@@ -10,12 +11,6 @@
   gap: 20px;
   justify-content: center;
   align-items: start;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #f5f5f5;
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
 }
 
 .workout-day {
@@ -30,6 +25,24 @@
   padding: 15px;
   background-color: #f8f8f8;
   border-radius: 8px;
+}
+
+.add-workout-btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.add-workout-btn:hover {
+  background-color: #0056b3;
 }
 
 .add-btn {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getWorkouts, deleteWorkout } from "../../services/workoutService";
-import WorkoutDay from "../../components/WorkoutDay/WorkoutDay";
+import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
 import "./WorkoutPage.css";
 
 export default function WorkoutPage() {
@@ -29,42 +29,41 @@ export default function WorkoutPage() {
     }
   }
 
-  function handleAddWorkout(day) {
-    const existingWorkout = workouts.find((workout) => workout.dayOfWeek === day);
-    if (existingWorkout) {
-      alert(`A workout for ${day} already exists. Please edit the existing one.`);
-    } else {
-      navigate(`/workouts/new?day=${day}`);
-    }
-  }
-
   function handleEditWorkout(id) {
     navigate(`/workouts/${id}/edit`);
   }
 
-  // Ensure all 7 days are represented
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const workoutMap = workouts.reduce((acc, workout) => {
-    acc[workout.dayOfWeek] = workout;
-    return acc;
-  }, {});
+  function handleShareWorkout(workoutId, shared) {
+    setWorkouts((prevWorkouts) =>
+      prevWorkouts.map((workout) =>
+        workout._id === workoutId ? { ...workout, sharedWithCommunity: shared } : workout
+      )
+    );
+  }
 
   return (
     <div className="WorkoutPage">
-      <h1>Your Weekly Workouts</h1>
+      <h1>Your Workouts</h1>
 
       <div className="workout-grid">
-        {daysOfWeek.map((day) => (
-          <WorkoutDay
-            key={day}
-            day={day}
-            workout={workoutMap[day]}
-            onAdd={handleAddWorkout}
-            onEdit={handleEditWorkout}
-            onDelete={handleDelete}
-          />
-        ))}
+        {workouts.length > 0 ? (
+          workouts.map((workout) => (
+            <WorkoutCard
+              key={workout._id}
+              workout={workout}
+              onEdit={handleEditWorkout}
+              onDelete={handleDelete}
+              onShare={handleShareWorkout}
+            />
+          ))
+        ) : (
+          <p>No workouts available. Add one!</p>
+        )}
       </div>
+
+      <button className="add-workout-btn" onClick={() => navigate("/workouts/new")}>
+        Add New Workout
+      </button>
     </div>
   );
 }
