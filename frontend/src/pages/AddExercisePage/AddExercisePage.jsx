@@ -1,24 +1,59 @@
-import { useNavigate } from "react-router-dom";
-import { createExercise } from "../../services/exerciseService";
-import ExerciseForm from "../../components/ExerciseForm/ExerciseForm";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getWorkout, addExercisesToWorkout } from "../../services/workoutService";
+import { getUserExercises } from "../../services/exerciseService";
+import "./AddExercisePage.css";
 
 export default function AddExercisePage() {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [workout, setWorkout] = useState(null);
+  const [allExercises, setAllExercises] = useState([]);
+  const [selectedExercises, setSelectedExercises] = useState([]);
 
-  async function handleSubmit(exerciseData) {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const workoutData = await getWorkout(id);
+        const exerciseData = await getUserExercises();
+        setWorkout(workoutData);
+        setAllExercises(exerciseData);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    }
+    fetchData();
+  }, [id]);
+
+  async function handleAddExercises() {
+    if (selectedExercises.length === 0) {
+      alert("Please select at least one exercise.");
+      return;
+    }
     try {
-      console.log("Submitting Exercise Data:", exerciseData); // ✅ Debugging
-      await createExercise(exerciseData);
-      navigate("/exercises");
+      await addExercisesToWorkout(id, selectedExercises);
+      navigate(`/workouts/${id}`);
     } catch (err) {
-      console.error("Error creating exercise:", err);
+      console.error("Error adding exercises:", err);
     }
   }
 
+  function handleExerciseSelection(event) {
+    const selected = Array.from(event.target.selectedOptions, (option) => option.value);
+    setSelectedExercises(selected);
+  }
+
+  if (!workout) return <p>Loading workout details...</p>;
+
   return (
-    <div>
-      <h1>Add New Exercise</h1>
-      <ExerciseForm handleSubmit={handleSubmit} />
+    <div className="AddExercisePage">
+      <h1>Add Exercises to {workout.title}</h1>
+      <select multiple onChange={handleExerciseSelection}>
+        {allExercises.map((ex) => (
+          <option key={ex._id} value={ex._id}>{ex.name}</option>
+        ))}
+      </select>
+      <button onClick={handleAddExercises}>Add Selected Exercises</button>
     </div>
   );
 }
