@@ -43,14 +43,17 @@ async function getExerciseById(req, res) {
 //  POST (Create) a New Exercise
 async function createExercise(req, res) {
   try {
-    const newExercise = await Exercise.create({
+    const newExercise = new Exercise({
       ...req.body,
       user: req.user._id,
     });
+    await newExercise.save();
     res.status(201).json(newExercise);
   } catch (err) {
     console.error('Error creating exercise:', err);
-    res.status(400).json({ message: 'Error creating exercise' });
+    res
+      .status(500)
+      .json({ message: 'Failed to create exercise', error: err.message });
   }
 }
 
@@ -74,16 +77,20 @@ async function updateExercise(req, res) {
 //  DELETE an Exercise
 async function deleteExercise(req, res) {
   try {
-    const deletedExercise = await Exercise.findOneAndDelete({
+    const exercise = await Exercise.findOneAndDelete({
       _id: req.params.id,
       user: req.user._id,
     });
-    if (!deletedExercise)
-      return res.status(404).json({ message: 'Exercise not found' });
+    if (!exercise)
+      return res
+        .status(404)
+        .json({ message: 'Exercise not found or unauthorized' });
     res.json({ message: 'Exercise deleted successfully' });
   } catch (err) {
     console.error('Error deleting exercise:', err);
-    res.status(400).json({ message: 'Error deleting exercise' });
+    res
+      .status(500)
+      .json({ message: 'Failed to delete exercise', error: err.message });
   }
 }
 

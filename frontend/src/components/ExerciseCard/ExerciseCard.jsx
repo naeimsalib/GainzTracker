@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { shareExercise, unshareExercise } from "../../services/exerciseService";
+import { shareExercise, unshareExercise, deleteExercise } from "../../services/exerciseService";
 import "./ExerciseCard.css";
 
 export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare }) {
@@ -27,6 +27,16 @@ export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare
     }
   }
 
+  async function handleDelete(e) {
+    e.stopPropagation();
+    try {
+      await deleteExercise(exercise._id);
+      if (onDelete) onDelete(exercise._id);
+    } catch (err) {
+      console.error("Error deleting exercise:", err);
+    }
+  }
+
   return (
     <div
       className="exercise-card"
@@ -34,10 +44,7 @@ export default function ExerciseCard({ exercise, user, onEdit, onDelete, onShare
     >
       <button
         className="delete-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(exercise._id);
-        }}
+        onClick={handleDelete}
       >
         X
       </button>
