@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getWorkout, updateWorkout } from "../../services/workoutService";
 import WorkoutForm from "../../components/WorkoutForm/WorkoutForm";
-import "./EditWorkoutPage.css";
 
 export default function EditWorkoutPage() {
   const { id } = useParams();
@@ -24,7 +23,7 @@ export default function EditWorkoutPage() {
   async function handleUpdateWorkout(updatedData) {
     try {
       await updateWorkout(id, updatedData);
-      navigate("/workouts"); // Redirect back to workouts page
+      navigate("/workouts");
     } catch (err) {
       console.error("Error updating workout:", err);
     }
