@@ -8,7 +8,7 @@ export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
   async function handleDelete(e) {
     e.stopPropagation();
     try {
-      await onDelete(workout._id); // ✅ Ensure proper delete execution
+      await onDelete(workout._id);
     } catch (err) {
       console.error("Error deleting workout:", err);
     }
@@ -47,10 +47,15 @@ export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
           Edit
         </button>
 
-        <button
-          className={`share-btn ${workout.sharedWithCommunity ? "unshare" : "share"}`}
-          onClick={workout.sharedWithCommunity ? handleUnshare : handleShare}
-        >
+        <button className="exercise-btn" onClick={(e) => { 
+          e.stopPropagation(); 
+          navigate(`/workouts/${workout._id}/add-exercises`);
+        }}>
+          Add Exercise
+        </button>
+
+        <button className={`share-btn ${workout.sharedWithCommunity ? "unshare" : "share"}`} 
+                onClick={workout.sharedWithCommunity ? handleUnshare : handleShare}>
           {workout.sharedWithCommunity ? "Unshare" : "Share"}
         </button>
       </div>

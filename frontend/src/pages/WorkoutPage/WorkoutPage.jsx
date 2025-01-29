@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getWorkouts, deleteWorkout, shareWorkout, unshareWorkout } from "../../services/workoutService";
-import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
+import { getWorkouts, deleteWorkout } from "../../services/workoutService";
+import WorkoutDay from "../../components/WorkoutDay/WorkoutDay";
 import "./WorkoutPage.css";
 
 export default function WorkoutPage() {
@@ -22,51 +22,48 @@ export default function WorkoutPage() {
 
   async function handleDelete(id) {
     try {
-      await deleteWorkout(id); // ✅ Ensure it's deleted from the DB
-      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id)); // ✅ Remove from UI state
+      await deleteWorkout(id);
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id));
     } catch (err) {
       console.error("Error deleting workout:", err);
     }
   }
 
-  async function handleShare(id, isShared) {
-    try {
-      if (isShared) {
-        await shareWorkout(id);
-      } else {
-        await unshareWorkout(id);
-      }
-      setWorkouts((prevWorkouts) =>
-        prevWorkouts.map((workout) =>
-          workout._id === id ? { ...workout, sharedWithCommunity: isShared } : workout
-        )
-      );
-    } catch (err) {
-      console.error("Error updating workout sharing status:", err);
+  function handleAddWorkout(day) {
+    const existingWorkout = workouts.find((workout) => workout.dayOfWeek === day);
+    if (existingWorkout) {
+      alert(`A workout for ${day} already exists. Please edit the existing one.`);
+    } else {
+      navigate(`/workouts/new?day=${day}`);
     }
   }
 
+  function handleEditWorkout(id) {
+    navigate(`/workouts/${id}/edit`);
+  }
+
+  // Ensure all 7 days are represented
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const workoutMap = workouts.reduce((acc, workout) => {
+    acc[workout.dayOfWeek] = workout;
+    return acc;
+  }, {});
+
   return (
     <div className="WorkoutPage">
-      <h1>Your Workouts</h1>
-      <button onClick={() => navigate("/workouts/new")} className="add-workout-btn">
-        Add Workout
-      </button>
+      <h1>Your Weekly Workouts</h1>
 
-      <div className="workout-container">
-        {workouts.length > 0 ? (
-          workouts.map((workout) => (
-            <WorkoutCard
-              key={workout._id}
-              workout={workout}
-              onEdit={(id) => navigate(`/workouts/${id}/edit`)}
-              onDelete={handleDelete} // ✅ Ensure proper delete function
-              onShare={handleShare}
-            />
-          ))
-        ) : (
-          <p>You have no saved workouts.</p>
-        )}
+      <div className="workout-grid">
+        {daysOfWeek.map((day) => (
+          <WorkoutDay
+            key={day}
+            day={day}
+            workout={workoutMap[day]}
+            onAdd={handleAddWorkout}
+            onEdit={handleEditWorkout}
+            onDelete={handleDelete}
+          />
+        ))}
       </div>
     </div>
   );

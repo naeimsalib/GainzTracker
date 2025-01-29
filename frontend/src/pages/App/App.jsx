@@ -57,10 +57,11 @@ export default function App() {
               <Route path="/workouts/new" element={<AddWorkoutPage />} />
               <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
               <Route path="/workouts/:id/edit" element={<EditWorkoutPage />} />
+              <Route path="/workouts/:id/add-exercises" element={<AddExercisePage />} /> {/* ✅ Added */}
 
               {/* Exercises */}
               <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/exercises/new" element={<AddExercisePage />} />
+              <Route path="/exercises/new" element={<AddExercisePage />} /> {/* ✅ Kept */}
               <Route path="/exercises/:id/edit" element={<EditExercisePage />} />
               <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
               
