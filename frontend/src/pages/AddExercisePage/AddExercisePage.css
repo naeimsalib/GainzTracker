@@ -1,49 +1,71 @@
-.AddExercisePage, .EditExercisePage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.add-exercise-form-container {
   max-width: 600px;
   margin: auto;
-  padding: 40px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: var(--light-shadow);
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.exercise-form {
+.add-exercise-form {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 15px;
 }
 
-.exercise-form label {
-  text-align: left;
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
   font-weight: bold;
-  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
-.exercise-form input,
-.exercise-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 16px;
-  background-color: var(--primary-color);
+/* Ensuring full width for specific fields */
+.full-width {
+  width: 100%;
+}
+
+/* Group "Sets", "Reps", "Rest Time" in one row */
+.triple-group {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.triple-group .form-group {
+  flex: 1;
+}
+
+/* Checkbox Alignment */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  background-color: #007bff;
   color: white;
   border: none;
-  cursor: pointer;
+  padding: 10px;
   border-radius: 5px;
-  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-button:hover {
-  opacity: 0.8;
+button[type="submit"]:hover {
+  background-color: #0056b3;
 }

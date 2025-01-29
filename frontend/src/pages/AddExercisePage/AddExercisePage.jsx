@@ -1,59 +1,77 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getWorkout, addExercisesToWorkout } from "../../services/workoutService";
-import { getUserExercises } from "../../services/exerciseService";
-import "./AddExercisePage.css";
+<form onSubmit={onSubmit} className="add-exercise-form">
+  {/* Exercise Name */}
+  <div className="form-group full-width">
+    <label>Exercise Name</label>
+    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+  </div>
 
-export default function AddExercisePage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [workout, setWorkout] = useState(null);
-  const [allExercises, setAllExercises] = useState([]);
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  {/* Category Dropdown */}
+  <div className="form-group">
+    <label>Category</label>
+    <select name="category" value={formData.category} onChange={handleChange} required>
+      <option value="Strength">Strength</option>
+      <option value="Cardio">Cardio</option>
+      <option value="Flexibility">Flexibility</option>
+      <option value="Mobility">Mobility</option>
+    </select>
+  </div>
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const workoutData = await getWorkout(id);
-        const exerciseData = await getUserExercises();
-        setWorkout(workoutData);
-        setAllExercises(exerciseData);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
-    }
-    fetchData();
-  }, [id]);
+  {/* Muscle Group */}
+  <div className="form-group">
+    <label>Muscle Group</label>
+    <input type="text" name="muscleGroup" value={formData.muscleGroup} onChange={handleChange} required />
+  </div>
 
-  async function handleAddExercises() {
-    if (selectedExercises.length === 0) {
-      alert("Please select at least one exercise.");
-      return;
-    }
-    try {
-      await addExercisesToWorkout(id, selectedExercises);
-      navigate(`/workouts/${id}`);
-    } catch (err) {
-      console.error("Error adding exercises:", err);
-    }
-  }
+  {/* Equipment */}
+  <div className="form-group full-width">
+    <label>Equipment</label>
+    <input type="text" name="equipment" value={formData.equipment} onChange={handleChange} />
+  </div>
 
-  function handleExerciseSelection(event) {
-    const selected = Array.from(event.target.selectedOptions, (option) => option.value);
-    setSelectedExercises(selected);
-  }
+  {/* Difficulty Level */}
+  <div className="form-group">
+    <label>Difficulty Level</label>
+    <select name="difficultyLevel" value={formData.difficultyLevel} onChange={handleChange} required>
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+  </div>
 
-  if (!workout) return <p>Loading workout details...</p>;
-
-  return (
-    <div className="AddExercisePage">
-      <h1>Add Exercises to {workout.title}</h1>
-      <select multiple onChange={handleExerciseSelection}>
-        {allExercises.map((ex) => (
-          <option key={ex._id} value={ex._id}>{ex.name}</option>
-        ))}
-      </select>
-      <button onClick={handleAddExercises}>Add Selected Exercises</button>
+  {/* Sets, Reps, Rest Time in One Row */}
+  <div className="triple-group">
+    <div className="form-group">
+      <label>Sets</label>
+      <input type="number" name="sets" value={formData.sets} onChange={handleChange} min="1" />
     </div>
-  );
-}
+    <div className="form-group">
+      <label>Reps</label>
+      <input type="number" name="reps" value={formData.reps} onChange={handleChange} min="1" />
+    </div>
+    <div className="form-group">
+      <label>Rest Time (seconds)</label>
+      <input type="number" name="restTime" value={formData.restTime} onChange={handleChange} min="0" />
+    </div>
+  </div>
+
+  {/* Video URL */}
+  <div className="form-group full-width">
+    <label>Video URL</label>
+    <input type="text" name="video" value={formData.video} onChange={handleChange} />
+  </div>
+
+  {/* Notes */}
+  <div className="form-group full-width">
+    <label>Notes</label>
+    <textarea name="notes" value={formData.notes} onChange={handleChange} rows="3"></textarea>
+  </div>
+
+  {/* Shared with Community */}
+  <div className="form-group checkbox-group">
+    <input type="checkbox" name="sharedWithCommunity" checked={formData.sharedWithCommunity} onChange={handleChange} />
+    <label>Share with Community</label>
+  </div>
+
+  {/* Submit Button */}
+  <button type="submit">Add Exercise</button>
+</form>
