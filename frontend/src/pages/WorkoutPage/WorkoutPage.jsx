@@ -20,6 +20,15 @@ export default function WorkoutPage() {
     fetchWorkouts();
   }, []);
 
+  async function handleDelete(id) {
+    try {
+      await deleteWorkout(id); // ✅ Ensure it's deleted from the DB
+      setWorkouts((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== id)); // ✅ Remove from UI state
+    } catch (err) {
+      console.error("Error deleting workout:", err);
+    }
+  }
+
   async function handleShare(id, isShared) {
     try {
       if (isShared) {
@@ -51,7 +60,7 @@ export default function WorkoutPage() {
               key={workout._id}
               workout={workout}
               onEdit={(id) => navigate(`/workouts/${id}/edit`)}
-              onDelete={(id) => setWorkouts(workouts.filter((w) => w._id !== id))}
+              onDelete={handleDelete} // ✅ Ensure proper delete function
               onShare={handleShare}
             />
           ))

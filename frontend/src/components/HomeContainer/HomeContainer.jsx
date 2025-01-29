@@ -26,22 +26,41 @@ export default function HomeContainer({ user }) {
   return (
     <div className="home-container">
       <p className="quote-text">{placeholderQuote}</p>
-      
+
       {!user && <SignUpButton />}
-      
+
       {user && (
         <>
           <p className="date-text">Today is {today}</p>
+
           {todayWorkouts.length > 0 ? (
             <div className="workout-list">
               <h2>Today's Workouts</h2>
-              <ul>
-                {todayWorkouts.map((workout) => (
-                  <li key={workout._id} className="workout-item">
-                    <strong>{workout.title}</strong> - {workout.workoutType} ({workout.duration} mins)
-                  </li>
-                ))}
-              </ul>
+              {todayWorkouts.map((workout) => (
+                <div key={workout._id} className="workout-card">
+                  <h3>{workout.title}</h3>
+                  <p><strong>Type:</strong> {workout.workoutType}</p>
+                  <p><strong>Duration:</strong> {workout.duration} minutes</p>
+                  <p><strong>Intensity Level:</strong> {workout.intensityLevel}/10</p>
+                  {workout.notes && <p><strong>Notes:</strong> {workout.notes}</p>}
+                  
+                  {workout.exercises.length > 0 && (
+                    <div className="exercise-list">
+                      <h4>Exercises</h4>
+                      <div className="exercise-grid">
+                        {workout.exercises.map((exercise) => (
+                          <div key={exercise._id} className="exercise-item">
+                            <h5>{exercise.name}</h5>
+                            <p><strong>Category:</strong> {exercise.category}</p>
+                            <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+                            <p><strong>Sets:</strong> {exercise.sets} | <strong>Reps:</strong> {exercise.reps}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           ) : (
             <p className="no-workout-text">No scheduled workouts for today.</p>

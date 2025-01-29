@@ -5,6 +5,15 @@ import "./WorkoutCard.css";
 export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
   const navigate = useNavigate();
 
+  async function handleDelete(e) {
+    e.stopPropagation();
+    try {
+      await onDelete(workout._id); // ✅ Ensure proper delete execution
+    } catch (err) {
+      console.error("Error deleting workout:", err);
+    }
+  }
+
   async function handleShare(e) {
     e.stopPropagation();
     try {
@@ -26,32 +35,15 @@ export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
   }
 
   return (
-    <div
-      className="workout-card"
-      onClick={() => navigate(`/workouts/${workout._id}`)}
-    >
-      <button
-        className="delete-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(workout._id);
-        }}
-      >
-        X
-      </button>
+    <div className="workout-card" onClick={() => navigate(`/workouts/${workout._id}`)}>
+      <button className="delete-btn" onClick={handleDelete}>X</button>
       <h3 className="workout-title">{workout.title}</h3>
       <p><strong>Day:</strong> {workout.dayOfWeek}</p>
       <p><strong>Type:</strong> {workout.workoutType}</p>
       <p><strong>Duration:</strong> {workout.duration} mins</p>
 
       <div className="workout-actions">
-        <button
-          className="edit-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(workout._id);
-          }}
-        >
+        <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(workout._id); }}>
           Edit
         </button>
 
