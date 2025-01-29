@@ -56,3 +56,18 @@
     background-color: var(--secondary-color);
   }
   
+  .add-exercises-btn {
+    padding: 10px;
+    font-size: 14px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .add-exercises-btn:hover {
+    background-color: var(--secondary-color);
+  }
+  

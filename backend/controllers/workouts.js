@@ -131,36 +131,31 @@ async function deleteWorkout(req, res) {
 async function addExercisesToWorkout(req, res) {
   try {
     const { exercises } = req.body;
-
     if (!Array.isArray(exercises) || exercises.length === 0) {
       return res.status(400).json({ message: 'Invalid exercise list' });
     }
-
     const workout = await Workout.findById(req.params.id);
     if (!workout) return res.status(404).json({ message: 'Workout not found' });
-
-    // Ensure exercises exist
     const existingExercises = await Exercise.find({ _id: { $in: exercises } });
     if (existingExercises.length !== exercises.length) {
       return res
         .status(400)
         .json({ message: 'One or more exercises do not exist' });
     }
-
-    // Add new exercises only if they are not already in the workout
     const newExercises = exercises.filter(
       (ex) => !workout.exercises.includes(ex)
     );
     workout.exercises.push(...newExercises);
-
     await workout.save();
     res.json(workout);
   } catch (err) {
     console.error('Error adding exercises:', err);
-    res.status(500).json({
-      message: 'Failed to add exercises to workout',
-      error: err.message,
-    });
+    res
+      .status(500)
+      .json({
+        message: 'Failed to add exercises to workout',
+        error: err.message,
+      });
   }
 }
 

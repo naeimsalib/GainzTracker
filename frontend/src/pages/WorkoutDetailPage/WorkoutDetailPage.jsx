@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getWorkout, addExercisesToWorkout } from "../../services/workoutService"; 
-import { getUserExercises } from "../../services/exerciseService"; // Updated import
+import { getUserExercises } from "../../services/exerciseService"; 
 import "./WorkoutDetailPage.css";
 
 export default function WorkoutDetailPage() {
@@ -15,7 +15,7 @@ export default function WorkoutDetailPage() {
     async function fetchData() {
       try {
         const workoutData = await getWorkout(id);
-        const exerciseData = await getUserExercises(); // Updated function call
+        const exerciseData = await getUserExercises(); 
         setWorkout(workoutData);
         setAllExercises(exerciseData);
       } catch (err) {

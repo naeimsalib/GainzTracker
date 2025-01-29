@@ -1,35 +1,75 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getExercises } from "../../services/exerciseService";
+import { addExercisesToWorkout, getWorkout } from "../../services/workoutService";
 import "./WorkoutForm.css";
 
-export default function WorkoutForm({ handleSubmit }) {
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+export default function WorkoutForm({ handleSubmit, initialData }) {
+  const location = useLocation();
+  const prefilledDay = location.state?.dayOfWeek || initialData?.dayOfWeek || "Monday";
+
   const [formData, setFormData] = useState({
-    title: "",
-    dayOfWeek: "Monday",
-    workoutType: "Strength",
-    duration: "",
-    intensityLevel: 5,
+    title: initialData?.title || "",
+    dayOfWeek: prefilledDay,
+    workoutType: initialData?.workoutType || "Strength",
+    duration: initialData?.duration || "",
+    exercises: initialData?.exercises || [],
+    intensityLevel: initialData?.intensityLevel || 5,
   });
+
+  const [availableExercises, setAvailableExercises] = useState([]);
+  const [selectedExercises, setSelectedExercises] = useState([]);
+
+  useEffect(() => {
+    async function fetchExercises() {
+      try {
+        const data = await getExercises();
+        setAvailableExercises(data);
+      } catch (err) {
+        console.error("Error fetching exercises:", err);
+      }
+    }
+    fetchExercises();
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "duration" ? Number(value) : value, // Convert duration to number
+      [name]: name === "duration" ? Number(value) : value,
     }));
+  }
+
+  function handleExerciseSelection(e) {
+    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+    setSelectedExercises(selected);
+  }
+
+  async function handleAddExercises() {
+    console.log("Adding exercises:", selectedExercises);
+    try {
+      await addExercisesToWorkout(initialData._id, selectedExercises);
+      const updatedWorkout = await getWorkout(initialData._id);
+      setFormData((prevData) => ({
+        ...prevData,
+        exercises: updatedWorkout.exercises,
+      }));
+      setSelectedExercises([]);
+    } catch (err) {
+      console.error("Error adding exercises:", err);
+    }
   }
 
   function onSubmit(e) {
     e.preventDefault();
-    if (!formData.title.trim() || !formData.duration) {
-      alert("Title and Duration are required!");
-      return;
-    }
     handleSubmit(formData);
   }
 
   return (
     <div className="workout-form-container">
-      <h1>Create a Workout</h1>
+      <h1>{initialData ? "Edit Workout" : "Create a Workout"}</h1>
       <form onSubmit={onSubmit} className="workout-form">
         <div className="form-group">
           <label>Title</label>
@@ -39,17 +79,10 @@ export default function WorkoutForm({ handleSubmit }) {
         <div className="form-group">
           <label>Day of the Week</label>
           <select name="dayOfWeek" value={formData.dayOfWeek} onChange={handleChange} required>
-            {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day) => (
-              <option key={day} value={day}>{day}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Workout Type</label>
-          <select name="workoutType" value={formData.workoutType} onChange={handleChange} required>
-            {["Strength", "Cardio", "Flexibility", "Mobility"].map((type) => (
-              <option key={type} value={type}>{type}</option>
+            {daysOfWeek.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
             ))}
           </select>
         </div>
@@ -59,7 +92,21 @@ export default function WorkoutForm({ handleSubmit }) {
           <input type="number" name="duration" value={formData.duration} onChange={handleChange} required />
         </div>
 
-        <button type="submit">Save Workout</button>
+        <div className="form-group">
+          <label>Exercises</label>
+          <select multiple onChange={handleExerciseSelection} value={selectedExercises}>
+            {availableExercises.map((ex) => (
+              <option key={ex._id} value={ex._id}>
+                {ex.name}
+              </option>
+            ))}
+          </select>
+          <button type="button" onClick={handleAddExercises} className="add-exercises-btn">
+            Add Exercises
+          </button>
+        </div>
+
+        <button type="submit">{initialData ? "Update Workout" : "Save Workout"}</button>
       </form>
     </div>
   );

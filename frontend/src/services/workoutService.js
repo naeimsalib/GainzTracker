@@ -42,11 +42,12 @@ export async function getSharedWorkouts() {
   return sendRequest(`${BASE_URL}/community`);
 }
 
-//save a shared workout to the user's account
+// Save a shared workout to the user's account
 export async function saveWorkout(id) {
   return sendRequest(`${BASE_URL}/${id}/save`, 'POST');
 }
 
+// Add exercises to a workout
 export async function addExercisesToWorkout(workoutId, exerciseIds) {
   return sendRequest(`${BASE_URL}/${workoutId}/add-exercises`, 'PUT', {
     exercises: exerciseIds,
