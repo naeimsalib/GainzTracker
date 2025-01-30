@@ -32,18 +32,18 @@ export default function WorkoutDetailPage() {
 
   async function handleAddExercises() {
     try {
-      if (selectedExercises.length === 0) {
-        alert("Please select at least one exercise.");
-        return;
-      }
-      await addExercisesToWorkout(id, selectedExercises);
-      const updatedWorkout = await getWorkout(id);
-      setWorkout(updatedWorkout);
-      setSelectedExercises([]);  
+        if (selectedExercises.length === 0) {
+            alert("Please select at least one exercise.");
+            return;
+        }
+        await addExercisesToWorkout(id, { exercises: selectedExercises }); // Make sure exercises is an array in the body
+        const updatedWorkout = await getWorkout(id);
+        setWorkout(updatedWorkout);
+        setSelectedExercises([]);
     } catch (err) {
-      console.error("Error adding exercises:", err);
+        console.error("Error adding exercises:", err);
     }
-  }
+}
 
   if (!workout) return <p>Loading workout details...</p>;
 

@@ -136,16 +136,16 @@ async function addExercisesToWorkout(req, res) {
     }
     const workout = await Workout.findById(req.params.id);
     if (!workout) return res.status(404).json({ message: 'Workout not found' });
+
+    // Ensure all exercises exist
     const existingExercises = await Exercise.find({ _id: { $in: exercises } });
     if (existingExercises.length !== exercises.length) {
       return res
         .status(400)
         .json({ message: 'One or more exercises do not exist' });
     }
-    const newExercises = exercises.filter(
-      (ex) => !workout.exercises.includes(ex)
-    );
-    workout.exercises.push(...newExercises);
+
+    workout.exercises.push(...exercises);
     await workout.save();
     res.json(workout);
   } catch (err) {

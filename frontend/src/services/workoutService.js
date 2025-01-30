@@ -48,8 +48,10 @@ export async function saveWorkout(id) {
 }
 
 // Add exercises to a workout
-export async function addExercisesToWorkout(workoutId, exerciseIds) {
-  return sendRequest(`${BASE_URL}/${workoutId}/add-exercises`, 'PUT', {
-    exercises: exerciseIds,
-  });
+export async function addExercisesToWorkout(workoutId, exercises) {
+  return sendRequest(
+    `${BASE_URL}/${workoutId}/add-exercises`,
+    'PUT',
+    exercises
+  );
 }

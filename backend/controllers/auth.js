@@ -4,35 +4,38 @@ const User = require('../models/user');
 
 module.exports = {
   signUp,
-  logIn
+  login,
 };
 
-async function logIn(req, res) {
+async function login(req, res) {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) throw new Error();
+    if (!user) return res.status(401).json({ message: 'Unauthorized' });
+
     const match = await bcrypt.compare(req.body.password, user.password);
-    if (!match) throw new Error();
-    const token = createJWT(user);
-    res.json(token);
+    if (!match) return res.status(401).json({ message: 'Unauthorized' });
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: 'Bad Credentials' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
 
 async function signUp(req, res) {
   try {
-    const user = await User.create(req.body);
-    const token = createJWT(user);
-    res.json(token);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+    await user.save();
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: 'Duplicate Email' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
-
-
 
 /*--- Help Functions ---*/
 

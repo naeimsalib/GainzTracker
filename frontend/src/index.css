@@ -62,3 +62,18 @@ input, select, textarea {
   border: 1px solid var(--text-color);
   border-radius: 4px;
 }
+
+.workout-summary {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.workout-summary:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+}

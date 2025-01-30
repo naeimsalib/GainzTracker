@@ -10,13 +10,13 @@
   align-items: center;
   text-align: center;
   position: relative;
-  transition: transform 0.2s ease-in-out;
   cursor: pointer;
+  transition: 0.2s ease-in-out;
 }
 
 /* Hover Effect */
 .workout-card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.02);
 }
 
 /* Workout Title */

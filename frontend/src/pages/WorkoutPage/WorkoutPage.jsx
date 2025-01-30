@@ -1,17 +1,28 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getWorkouts, deleteWorkout, shareWorkout, unshareWorkout } from "../../services/workoutService";
+import React, { useEffect, useState } from "react";
 import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
 import "./WorkoutPage.css";
+import {
+  getWorkouts,
+  deleteWorkout,
+  shareWorkout,
+  unshareWorkout,
+} from "../../services/workoutService";
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchWorkouts() {
+    async function loadWorkouts() {
       try {
         const data = await getWorkouts();
         setWorkouts(data);
@@ -19,72 +30,70 @@ export default function WorkoutPage() {
         console.error("Error fetching workouts:", err);
       }
     }
-    fetchWorkouts();
+    loadWorkouts();
   }, []);
 
-  const handleAddWorkout = (day) => {
-    navigate("/workouts/new", { state: { dayOfWeek: day } });
-  };
-
-  const handleDeleteWorkout = async (id) => {
+  async function handleDelete(workoutId) {
     try {
-      await deleteWorkout(id);
-      setWorkouts(workouts.filter((workout) => workout._id !== id));
+      await deleteWorkout(workoutId);
+      setWorkouts((prevWorkouts) =>
+        prevWorkouts.filter((workout) => workout._id !== workoutId)
+      );
     } catch (err) {
       console.error("Error deleting workout:", err);
     }
-  };
+  }
 
-  const handleShare = async (id, isShared) => {
+  async function handleShare(workoutId, isShared) {
     try {
       if (isShared) {
-        await shareWorkout(id);
+        await shareWorkout(workoutId);
       } else {
-        await unshareWorkout(id);
+        await unshareWorkout(workoutId);
       }
       setWorkouts((prevWorkouts) =>
         prevWorkouts.map((workout) =>
-          workout._id === id ? { ...workout, sharedWithCommunity: isShared } : workout
+          workout._id === workoutId
+            ? { ...workout, sharedWithCommunity: isShared }
+            : workout
         )
       );
     } catch (err) {
-      console.error("Error updating workout sharing status:", err);
+      console.error("Error updating share status:", err);
     }
-  };
+  }
 
-  const workoutsByDay = daysOfWeek.map((day) => ({
-    day,
-    workouts: workouts.filter((workout) => workout.dayOfWeek === day),
-  }));
+  function handleEdit(workoutId) {
+    // Implement the edit functionality here
+    console.log(`Edit workout with ID: ${workoutId}`);
+  }
+
+  const workoutsByDay = daysOfWeek.map((day) => {
+    const workout = workouts.find((workout) => workout.dayOfWeek === day);
+    return (
+      <div key={day} className="day-column">
+        <h3>{day}</h3>
+        {workout ? (
+          <WorkoutCard
+            key={workout._id}
+            workout={workout}
+            onDelete={handleDelete}
+            onShare={handleShare}
+            onEdit={handleEdit}
+          />
+        ) : (
+          <div className="rest-day">
+            <p>Rest day</p>
+          </div>
+        )}
+      </div>
+    );
+  });
 
   return (
-    <div className="WorkoutPage">
-      <h1>Your Weekly Workouts</h1>
-      <div className="week-container">
-        {workoutsByDay.map(({ day, workouts }) => (
-          <div key={day} className="day-container">
-            <h2>{day}</h2>
-            {workouts.length > 0 ? (
-              workouts.map((workout) => (
-                <WorkoutCard
-                  key={workout._id}
-                  workout={workout}
-                  onEdit={(id) => navigate(`/workouts/${id}/edit`)}
-                  onDelete={handleDeleteWorkout}
-                  onShare={(id, isShared) => handleShare(id, isShared)}
-                />
-              ))
-            ) : (
-              <div>
-                <p>Rest Day</p>
-                <button onClick={() => handleAddWorkout(day)} className="add-workout-btn">
-                  Add Workout
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="workout-page">
+      <h2>Your Workouts</h2>
+      <div className="workout-grid">{workoutsByDay}</div>
     </div>
   );
 }

@@ -4,18 +4,32 @@
   margin: 50px auto;
 }
 
+.workout-page {
+  padding: 20px;
+}
+
 .workout-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   gap: 20px;
-  justify-content: center;
-  align-items: start;
 }
 
 .week-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+}
+
+.rest-day {
+  color: #888;
+}
+
+.day-column {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
 }
 
 .day-container {
