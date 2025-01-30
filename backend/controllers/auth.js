@@ -31,16 +31,477 @@ async function login(req, res) {
 
 async function signUp(req, res) {
   try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       email: req.body.email,
       password: hashedPassword,
     });
+
     await user.save();
+    console.log('User created:', user); // Debugging log
+
     const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
     res.json({ token });
   } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
+  }
+}
+
+async function signUp(req, res) {
+  try {
+    console.log('Signup request received:', req.body); // Debugging log
+
+    if (!req.body.email || !req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    await user.save();
+    console.log('User created:', user); // Debugging log
+
+    const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } catch (err) {
+    console.error('Signup Error:', err); // Log exact error
+    res
+      .status(500)
+      .json({ message: 'Internal server error', error: err.message });
   }
 }
 
