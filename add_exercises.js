@@ -3,8 +3,7 @@ const Exercise = require('./backend/models/exercise'); // Correct path to your E
 const User = require('./backend/models/user'); // Correct path to your User model
 
 // MongoDB URI
-const MONGODB_URI =
-  'mongodb+srv://naeimsalib:Lilnemo123@cluster0.ft6nu.mongodb.net/GainzTracker?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // Define new exercises
 const newExercises = [
