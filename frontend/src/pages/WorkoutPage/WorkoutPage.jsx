@@ -59,7 +59,6 @@ export default function WorkoutPage() {
     <div className="workout-page">
       <div className="workout-header">
         <h2>Your Workouts</h2>
-        <button className="add-workout-btn">+ Add Workout</button>
       </div>
       
       {workouts.length > 0 ? (

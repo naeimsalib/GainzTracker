@@ -1,41 +1,63 @@
-const path = require('path'); // Built into Node
+const path = require('path');
 const express = require('express');
 const logger = require('morgan');
-const app = express();
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const winston = require('winston');
+const { handleError } = require('./utils');
 
-// Process the secrets/config vars in .env
 require('dotenv').config();
-
-// Connect to the database
 require('./db');
 
-app.use(logger('dev'));
-// Serve static assets from the frontend's built code folder (dist)
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-// Note that express.urlencoded middleware is not needed
-// because forms are not submitted!
-app.use(express.json());
+const app = express();
 
-// Check & verify token.  If so, add user payload to req.user
+// Logger setup
+const loggerMiddleware = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'logs/server.log' }),
+  ],
+});
+
+// Security middleware
+app.use(helmet());
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per window
+  message: 'Too many requests, please try again later.',
+});
+
+app.use('/api/', apiLimiter);
+
+// Auth middleware
 app.use(require('./middleware/checkToken'));
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
-
-// All routers below will have all routes protected
-app.use(require('./middleware/ensureLoggedIn'));
-
-// API Routes
+app.use(require('./middleware/ensureLoggedIn')); // Protects routes below
 app.use('/api/exercises', require('./routes/exercise'));
 app.use('/api/workouts', require('./routes/workout'));
 app.use('/api/profile', require('./routes/profile'));
 
-// Use a "catch-all" route to deliver the frontend's production index.html
-app.get('*', function (req, res) {
+// Serve frontend
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+// Global Error Handling
+app.use((err, req, res, next) => {
+  loggerMiddleware.error(err.message);
+  handleError(res, err, 'Something went wrong on the server', 500);
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`The express app is listening on ${port}`);
+  loggerMiddleware.info(`Server listening on port ${port}`);
 });
