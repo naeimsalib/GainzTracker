@@ -41,25 +41,25 @@ The signup page allows new users to create an account by providing their name, e
 
 The workout page displays all the workouts for the logged-in user. Users can add new workouts, edit existing workouts, and delete workouts. Each workout is displayed in a card format with the workout details.
 
-![Workout Page](path/to/workoutpage-screenshot.png)
+![Workout Page](./frontend/src/assets/Screenshots/WorkoutsHomePage.png)
 
 ### Workout Detail Page
 
 The workout detail page displays the details of a specific workout, including the exercises linked to the workout. Users can add exercises to the workout, remove exercises from the workout, and edit the workout details.
 
-![Workout Detail Page](path/to/workoutdetailpage-screenshot.png)
+![Workout Detail Page](./frontend/src/assets/Screenshots/WorkoutDetailsPage.png)
 
 ### Exercise Page
 
 The exercise page displays all the exercises available in the application. Users can view the details of each exercise and add exercises to their workouts.
 
-![Exercise Page](path/to/exercisepage-screenshot.png)
+![Exercise Page](./frontend/src/assets/Screenshots/exercisesPage.png)
 
 ### Profile Page
 
 The profile page displays the user's profile information and allows users to update their profile details.
 
-![Profile Page](path/to/profilepage-screenshot.png)
+![Profile Page](./frontend/src/assets/Screenshots/profilePage.png)
 
 ## Installation
 
