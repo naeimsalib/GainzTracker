@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getWorkout, addExercisesToWorkout } from "../../services/workoutService"; 
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { getWorkout, addExercisesToWorkout, removeExerciseFromWorkout } from "../../services/workoutService"; 
 import { getUserExercises } from "../../services/exerciseService"; 
 import "./WorkoutDetailPage.css";
 
@@ -43,9 +43,23 @@ export default function WorkoutDetailPage() {
     } catch (err) {
         console.error("Error adding exercises:", err);
     }
-}
+  }
+
+  async function handleRemoveExercise(exerciseId) {
+    try {
+      await removeExerciseFromWorkout(id, exerciseId);
+      const updatedWorkout = await getWorkout(id);
+      setWorkout(updatedWorkout);
+    } catch (err) {
+      console.error("Error removing exercise:", err);
+    }
+  }
 
   if (!workout) return <p>Loading workout details...</p>;
+
+  const availableExercises = allExercises.filter(
+    (exercise) => !workout.exercises.some((ex) => ex._id === exercise._id)
+  );
 
   return (
     <div className="WorkoutDetailPage">
@@ -59,7 +73,10 @@ export default function WorkoutDetailPage() {
         <div className="exercise-list">
           {workout.exercises.map((exercise) => (
             <div key={exercise._id} className="exercise-card">
-              <h3>{exercise.name}</h3>
+              <button className="delete-btn" onClick={() => handleRemoveExercise(exercise._id)}>X</button>
+              <h3>
+                <Link to={`/exercises/${exercise._id}`}>{exercise.name}</Link>
+              </h3>
               <p><strong>Category:</strong> {exercise.category}</p>
               <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
             </div>
@@ -72,7 +89,7 @@ export default function WorkoutDetailPage() {
       {/* Add Exercises Section */}
       <h2>Add Exercises</h2>
       <select multiple onChange={handleExerciseSelection}>
-        {allExercises.map((ex) => (
+        {availableExercises.map((ex) => (
           <option key={ex._id} value={ex._id}>{ex.name}</option>
         ))}
       </select>

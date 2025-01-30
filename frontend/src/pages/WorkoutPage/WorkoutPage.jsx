@@ -73,7 +73,7 @@ export default function WorkoutPage() {
     const workout = workouts.find((workout) => workout.dayOfWeek === day);
     return (
       <WorkoutDay
-        key={day}
+        key={day} // Ensure unique key for each day
         day={day}
         workout={workout}
         onAddWorkout={handleAddWorkout}

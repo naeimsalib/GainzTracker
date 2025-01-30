@@ -23,6 +23,11 @@ router.put(
   ensureLoggedIn,
   workoutCtrl.addExercisesToWorkout
 );
+router.put(
+  '/:id/remove-exercise',
+  ensureLoggedIn,
+  workoutCtrl.removeExerciseFromWorkout
+);
 
 // Sharing/unsharing routes
 router.put('/:id/share', ensureLoggedIn, workoutCtrl.shareWorkout);

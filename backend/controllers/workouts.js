@@ -8,6 +8,7 @@ module.exports = {
   updateWorkout,
   deleteWorkout,
   addExercisesToWorkout,
+  removeExerciseFromWorkout, // Added this line
   getSharedWorkouts,
   saveWorkout,
   shareWorkout,
@@ -150,10 +151,32 @@ async function addExercisesToWorkout(req, res) {
     res.json(workout);
   } catch (err) {
     console.error('Error adding exercises:', err);
+    res.status(500).json({
+      message: 'Failed to add exercises to workout',
+      error: err.message,
+    });
+  }
+}
+
+// ✅ Remove an exercise from a workout
+async function removeExerciseFromWorkout(req, res) {
+  try {
+    const workout = await Workout.findById(req.params.id);
+    if (!workout) return res.status(404).json({ message: 'Workout not found' });
+
+    const { exerciseId } = req.body;
+    workout.exercises = workout.exercises.filter(
+      (ex) => ex.toString() !== exerciseId
+    );
+    await workout.save();
+
+    res.json(workout);
+  } catch (err) {
+    console.error('Error removing exercise:', err);
     res
       .status(500)
       .json({
-        message: 'Failed to add exercises to workout',
+        message: 'Failed to remove exercise from workout',
         error: err.message,
       });
   }

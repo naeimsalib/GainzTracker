@@ -55,3 +55,9 @@ export async function addExercisesToWorkout(workoutId, exercises) {
     exercises
   );
 }
+
+export async function removeExerciseFromWorkout(workoutId, exerciseId) {
+  return sendRequest(`${BASE_URL}/${workoutId}/remove-exercise`, 'PUT', {
+    exerciseId,
+  });
+}
