@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getExercises } from "../../services/exerciseService";
-import { addExercisesToWorkout } from "../../services/workoutService";
 import "./WorkoutForm.css";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -15,12 +13,8 @@ export default function WorkoutForm({ handleSubmit, initialData }) {
     dayOfWeek: prefilledDay,
     workoutType: initialData?.workoutType || "Strength",
     duration: initialData?.duration || "",
-    exercises: initialData?.exercises || [],
     intensityLevel: initialData?.intensityLevel || 5,
   });
-
-  const [availableExercises, setAvailableExercises] = useState([]);
-  const [selectedExercises, setSelectedExercises] = useState([]);
 
   useEffect(() => {
     async function fetchExercises() {
@@ -40,24 +34,6 @@ export default function WorkoutForm({ handleSubmit, initialData }) {
       ...prevData,
       [name]: name === "duration" ? Number(value) : value,
     }));
-  }
-
-  function handleExerciseSelection(e) {
-    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-    setSelectedExercises(selected);
-  }
-
-  async function handleAddExercises() {
-    try {
-      await addExercisesToWorkout(initialData._id, selectedExercises);
-      setFormData((prevData) => ({
-        ...prevData,
-        exercises: [...prevData.exercises, ...selectedExercises],
-      }));
-      setSelectedExercises([]);
-    } catch (err) {
-      console.error("Error adding exercises:", err);
-    }
   }
 
   function onSubmit(e) {
@@ -88,20 +64,6 @@ export default function WorkoutForm({ handleSubmit, initialData }) {
         <div className="form-group">
           <label>Duration (Minutes)</label>
           <input type="number" name="duration" value={formData.duration} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Exercises</label>
-          <select multiple onChange={handleExerciseSelection} value={selectedExercises}>
-            {availableExercises.map((ex) => (
-              <option key={ex._id} value={ex._id}>
-                {ex.name}
-              </option>
-            ))}
-          </select>
-          <button type="button" onClick={handleAddExercises} className="add-exercises-btn">
-            Add Exercises
-          </button>
         </div>
 
         <button type="submit">{initialData ? "Update Workout" : "Save Workout"}</button>

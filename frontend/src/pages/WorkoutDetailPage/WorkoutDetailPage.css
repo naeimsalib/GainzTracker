@@ -95,3 +95,38 @@
     background-color: #cc0000;
   }
   
+  .add-exercises-section {
+    margin-top: 30px;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .add-exercises-section h2 {
+    margin-bottom: 15px;
+  }
+  
+  .add-exercises-section select {
+    width: 100%;
+    padding: 10px;
+    height: 100%;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+  }
+  
+  .add-exercises-section button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-exercises-section button:hover {
+    background-color: #0056b3;
+  }

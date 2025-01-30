@@ -87,13 +87,15 @@ export default function WorkoutDetailPage() {
       )}
 
       {/* Add Exercises Section */}
-      <h2>Add Exercises</h2>
-      <select multiple onChange={handleExerciseSelection}>
-        {availableExercises.map((ex) => (
-          <option key={ex._id} value={ex._id}>{ex.name}</option>
-        ))}
-      </select>
-      <button onClick={handleAddExercises}>Add Exercises</button>
+      <div className="add-exercises-section">
+        <h2>Add Exercises</h2>
+        <select multiple onChange={handleExerciseSelection}>
+          {availableExercises.map((ex) => (
+            <option key={ex._id} value={ex._id}>{ex.name}</option>
+          ))}
+        </select>
+        <button onClick={handleAddExercises}>Add Exercises</button>
+      </div>
 
       <div className="button-group">
         <button className="edit-btn" onClick={() => navigate(`/workouts/${id}/edit`)}>Edit</button>
