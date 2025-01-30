@@ -19,6 +19,7 @@ const motivationalQuotes = [
 export default function HomeContainer({ user }) {
   const [quote, setQuote] = useState("");
   const [todayWorkout, setTodayWorkout] = useState(null);
+  const [error, setError] = useState(null); // ✅ Track errors
   const navigate = useNavigate();
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
@@ -26,16 +27,23 @@ export default function HomeContainer({ user }) {
     setQuote(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
 
     async function fetchWorkout() {
+      if (!user) {
+        console.log("User not logged in. Skipping workout fetch.");
+        return;
+      }
+
       try {
         const workouts = await getWorkouts();
         const todayWorkout = workouts.find((w) => w.dayOfWeek === today);
         setTodayWorkout(todayWorkout);
       } catch (err) {
         console.error("Error fetching workouts:", err);
+        setError("Could not load workouts. Please try again later.");
       }
     }
+
     fetchWorkout();
-  }, []);
+  }, [user]); // ✅ Only fetch when user is logged in
 
   return (
     <div className="home-container">
@@ -43,11 +51,17 @@ export default function HomeContainer({ user }) {
         <p className="quote-text">"{quote}"</p>
       </div>
 
-      {user && (
+      {user ? (
         <>
-          <p className="date-text">Today is <span className="highlight">{today}</span></p>
+          <p className="date-text">
+            Today is <span className="highlight">{today}</span>
+          </p>
+          {error && <p className="error-text">{error}</p>} {/* ✅ Show error if fetching fails */}
           {todayWorkout ? (
-            <div className="workout-summary" onClick={() => navigate(`/workouts/${todayWorkout._id}`)}>
+            <div
+              className="workout-summary"
+              onClick={() => navigate(`/workouts/${todayWorkout._id}`)}
+            >
               <h3>{todayWorkout.title}</h3>
               <p>Type: {todayWorkout.workoutType}</p>
               <p>Duration: {todayWorkout.duration} mins</p>
@@ -57,6 +71,10 @@ export default function HomeContainer({ user }) {
             <p className="no-workout-text">No workout assigned for today.</p>
           )}
         </>
+      ) : (
+        <p className="no-workout-text">
+          Please <a href="/login">log in</a> to see your workouts.
+        </p>
       )}
     </div>
   );

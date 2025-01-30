@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://gainz-tracker-56ecdfa3c0f4.herokuapp.com/',
+      '/api': 'http://localhost:3000',
     },
   },
 });

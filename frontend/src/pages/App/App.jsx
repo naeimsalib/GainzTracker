@@ -26,14 +26,15 @@ export default function App() {
   const [user, setUser] = useState(getUser());
   const navigate = useNavigate();
 
+  
   function handleLogin(userData) {
     setUser(userData);
-    navigate("/"); // Redirect to Home Page after login
+    navigate("/");
   }
 
   function handleLogout() {
     setUser(null);
-    navigate("/login"); // ✅ Redirect to login page after logout
+    navigate("/login");
   }
 
   return (
@@ -46,7 +47,7 @@ export default function App() {
           <Route path="/signup" element={<SignUpPage setUser={handleLogin} />} />
           <Route path="/login" element={<LogInPage setUser={handleLogin} />} />
 
-          {/* Always Accessible Community Page */}
+          {/* Community Page */}
           <Route path="/community" element={<CommunityPage />} />
 
           {/* Protected Routes (Only accessible when logged in) */}

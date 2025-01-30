@@ -8,17 +8,12 @@ module.exports = function (req, res, next) {
   if (!token) return next();
   // Remove the 'Bearer ' that was included in the token header
   token = token.replace('Bearer ', '');
-  console.log('Token:', token); // Debugging statement
   // Check if token is valid and not expired
   jwt.verify(token, process.env.SECRET, function (err, decoded) {
     // Invalid token if err
-    if (err) {
-      console.error('Token verification error:', err); // Debugging statement
-      return next();
-    }
+    if (err) return next();
     // decoded is the entire token payload
     req.user = decoded.user;
-    console.log('Decoded user:', req.user); // Debugging statement
     return next();
   });
 };

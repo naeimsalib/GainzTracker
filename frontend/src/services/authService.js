@@ -5,13 +5,22 @@ const BASE_URL = '/api/auth';
 export async function signUp(userData) {
   const token = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
   localStorage.setItem('token', token);
-  return getUser(); // ✅ Return user after signup
+  return getUser();
 }
 
 export async function logIn(credentials) {
-  const token = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
+  const response = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
+  console.log('Login response:', response); // 🔎 Debugging line
+
+  const token = response.token || response;
+  console.log('Extracted token:', token); // 🔎 Debugging line
+
+  if (typeof token !== 'string' || token.split('.').length !== 3) {
+    throw new Error('Invalid token received from server');
+  }
+
   localStorage.setItem('token', token);
-  return getUser(); // ✅ Return user after login
+  return getUser();
 }
 
 export function logOut() {
@@ -25,27 +34,23 @@ export function getUser() {
 
 export function getToken() {
   const token = localStorage.getItem('token');
-  if (!token) return null;
+  if (!token) return null; // ✅ No token? Return null.
 
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log('Decoded payload:', payload); // Debugging statement
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid token structure'); // ✅ Check if token has 3 parts
+    }
+
+    const payload = JSON.parse(atob(parts[1])); // ✅ Decode JWT payload safely
     if (payload.exp < Date.now() / 1000) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('token'); // ✅ Token expired? Remove it.
       return null;
     }
     return token;
   } catch (e) {
-    console.error('Error decoding token:', e); // Debugging statement
-    localStorage.removeItem('token');
+    console.error('Error decoding token:', e);
+    localStorage.removeItem('token'); // ✅ Malformed token? Remove it.
     return null;
   }
-}
-
-export function setToken(token) {
-  localStorage.setItem('token', token);
-}
-
-export function removeToken() {
-  localStorage.removeItem('token');
 }
