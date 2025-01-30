@@ -70,18 +70,18 @@ export default function WorkoutDetailPage() {
 
       <h2>Exercises</h2>
       {workout.exercises.length > 0 ? (
-        <div className="exercise-list">
+        <ul className="exercise-list">
           {workout.exercises.map((exercise) => (
-            <div key={exercise._id} className="exercise-card">
+            <li key={exercise._id} className="exercise-card">
               <button className="delete-btn" onClick={() => handleRemoveExercise(exercise._id)}>X</button>
               <h3>
                 <Link to={`/exercises/${exercise._id}`}>{exercise.name}</Link>
               </h3>
               <p><strong>Category:</strong> {exercise.category}</p>
               <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
         <p>No exercises linked to this workout.</p>
       )}

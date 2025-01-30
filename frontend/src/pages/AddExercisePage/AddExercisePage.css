@@ -1,6 +1,6 @@
 .add-exercise-form-container {
   max-width: 600px;
-  margin: auto;
+  margin: 100px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -10,6 +10,7 @@
 .add-exercise-form {
   display: flex;
   flex-direction: column;
+  margin-top: 90px;
   gap: 15px;
 }
 

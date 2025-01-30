@@ -1,8 +1,8 @@
 .workout-card {
-  background: white;
+  background: rgb(191, 189, 189);
   padding: 50px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 10px 14px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 350px;
   text-align: center;
@@ -25,7 +25,7 @@
   color: #333;
   text-align: left;
   margin-top: 10px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 10px solid #e0e0e0;
   padding-top: 10px;
 }
 

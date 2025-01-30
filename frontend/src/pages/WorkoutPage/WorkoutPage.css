@@ -28,11 +28,44 @@ padding-top: 90px;
 /* Fix: Proper Grid Layout */
 .workout-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ensures responsiveness */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted minmax to 250px and 1fr */
   gap: 20px;
   justify-content: center;
   align-items: start;
   padding: 20px;
+}
+
+.workout-day {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--light-shadow);
+  text-align: center;
+}
+
+.workout-day h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.workout-day p {
+  font-size: 5rem;
+  margin-bottom: 10px;
+}
+
+.workout-day button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.workout-day button:hover {
+  background-color: #0056b3;
 }
 
 /* Message for no workouts */

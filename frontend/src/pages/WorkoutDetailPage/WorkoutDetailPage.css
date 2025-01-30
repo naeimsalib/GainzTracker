@@ -1,132 +1,114 @@
 .WorkoutDetailPage {
-    max-width: 800px;
-    margin: 50px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: var(--light-shadow);
-    text-align: center;
-  }
-  
-  .exercise-card-link {
-    text-decoration: none;
-    color: inherit;
-  }
+  max-width: 800px;
+  margin: 50px auto;
+  background: white;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: var(--light-shadow);
+  text-align: center;
+}
 
-  .WorkoutDetailPage h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  .WorkoutDetailPage p {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-  
-  /* Exercises Grid */
-  .exercise-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  /* Individual Exercise Cards */
-.exercise-card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+.exercise-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.WorkoutDetailPage h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.WorkoutDetailPage p {
+  font-size: 1.1rem;
   margin-bottom: 10px;
-  transition: background-color 0.3s ease-in-out;
+}
+
+.exercise-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+}
+
+.exercise-card {
+  background: rgb(191, 189, 189);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 10px 14px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
   position: relative;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.exercise-card:hover {
+  background-color: #e0e0e0;
 }
 
 .exercise-card h3 {
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1.4em; /* Slightly larger font size */
 }
 
 .exercise-card p {
-  margin: 5px 0;
+  margin: 10px 0; /* Increased margin for better spacing */
+  font-size: 1.1em; /* Slightly larger font size */
 }
 
-  .exercise-card:hover {
-    background-color: #e0e0e0;
-  }
-  
-  /* Buttons */
-  .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .edit-btn {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 5px 10px;
-    font-size: 14px;
-  }
-  
-  .edit-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .delete-btn:hover {
-    background-color: #cc0000;
-  }
-  
-  .add-exercises-section {
-    margin-top: 30px;
-    padding: 50px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .add-exercises-section h2 {
-    margin-bottom: 15px;
-  }
-  
-  .add-exercises-section select {
-    width: 100%;
-    padding: 10px;
-    height: 100%;
-    font-size: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-  }
-  
-  .add-exercises-section button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .add-exercises-section button:hover {
-    background-color: #0056b3;
-  }
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: darkred;
+}
+
+/* Add Exercises Section */
+.add-exercises-section {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.add-exercises-section h2 {
+  margin-bottom: 15px;
+}
+
+.add-exercises-section select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.add-exercises-section button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-exercises-section button:hover {
+  background-color: #0056b3;
+}
