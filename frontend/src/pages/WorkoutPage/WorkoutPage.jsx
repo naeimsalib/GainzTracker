@@ -59,14 +59,12 @@ export default function WorkoutPage() {
     <div className="workout-page">
       <div className="workout-header">
         <h2>Your Workouts</h2>
-        <button className="add-workout-btn" onClick={() => navigate("/workouts/new")}>
-          + Add Workout
-        </button>
+        <button className="add-workout-btn">+ Add Workout</button>
       </div>
-
-      <div className="workout-grid">
-        {workouts.length > 0 ? (
-          workouts.map((workout) => (
+      
+      {workouts.length > 0 ? (
+        <div className="workout-grid">
+          {workouts.map((workout) => (
             <WorkoutCard
               key={workout._id}
               workout={workout}
@@ -74,11 +72,12 @@ export default function WorkoutPage() {
               onShare={handleShare}
               onEdit={handleEdit}
             />
-          ))
-        ) : (
-          <p className="no-workouts-message">No workouts found. Start by adding one!</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="no-workouts-message">No workouts found.</p>
+      )}
     </div>
   );
+  
 }

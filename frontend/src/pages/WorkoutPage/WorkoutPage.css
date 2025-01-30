@@ -1,11 +1,14 @@
 .workout-page {
-  text-align: center;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: var(--light-shadow);
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--light-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
 }
 
 .workout-header {
@@ -35,13 +38,14 @@
   background-color: var(--secondary-color);
 }
 
-/* Workout Grid */
+/* Fix: Proper Grid Layout */
 .workout-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ensures responsiveness */
   gap: 20px;
   justify-content: center;
   align-items: start;
+  padding: 20px;
 }
 
 /* Message for no workouts */
