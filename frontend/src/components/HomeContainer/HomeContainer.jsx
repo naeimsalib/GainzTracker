@@ -28,7 +28,6 @@ export default function HomeContainer({ user }) {
 
     async function fetchWorkout() {
       if (!user) {
-        console.log("User not logged in. Skipping workout fetch.");
         return;
       }
 

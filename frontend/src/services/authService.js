@@ -10,10 +10,8 @@ export async function signUp(userData) {
 
 export async function logIn(credentials) {
   const response = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
-  console.log('Login response:', response); // 🔎 Debugging line
 
   const token = response.token || response;
-  console.log('Extracted token:', token); // 🔎 Debugging line
 
   if (typeof token !== 'string' || token.split('.').length !== 3) {
     throw new Error('Invalid token received from server');

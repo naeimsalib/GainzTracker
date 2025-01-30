@@ -4,13 +4,15 @@
   min-height: 100vh;
 }
 
-/* #main-section {
-  flex-grow: 5;
-  max-width: 1200px;
-  margin: auto;
-  padding: 100px;
-} */
+#main-section {
+ margin-top: 50px;
+}
 
+#main-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
 .Footer {
   margin-top: auto;
   width: 100%;

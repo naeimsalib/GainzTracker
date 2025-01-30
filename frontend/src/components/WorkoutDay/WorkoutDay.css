@@ -44,9 +44,13 @@
 }
 
 .no-workout-text {
-  font-size: 1rem;
-  color: #888;
+  font-size: 1.3rem;
+  color: #e4e4e4;
   margin-top: 10px;
+}
+
+.no-workout-text a {
+  color: var(--primary-color);
 }
 
 .add-exercise-btn {
