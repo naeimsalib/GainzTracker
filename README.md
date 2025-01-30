@@ -22,19 +22,20 @@ Gainz Tracker is a web application designed to help users track their workouts a
 
 The home page provides an overview of the application and allows users to navigate to different sections of the app.
 
-![Home Page](path/to/homepage-screenshot.png)
+![Home Page](./frontend/src/assets/Screenshots/HomePageBeforeLoggingin.png)
+![Home Page](./frontend/src/assets/Screenshots/HomePage-AfterLogin.png)
 
 ### Login Page
 
 The login page allows users to log in to their account using their email and password.
 
-![Login Page](path/to/loginpage-screenshot.png)
+![Login Page](./frontend/src/assets/Screenshots/LoginPage.png)
 
 ### Signup Page
 
 The signup page allows new users to create an account by providing their name, email, and password.
 
-![Signup Page](path/to/signuppage-screenshot.png)
+![Signup Page](./frontend/src/assets/Screenshots/SignUpPage.png)
 
 ### Workout Page
 
