@@ -26,10 +26,26 @@ export function getUser() {
 export function getToken() {
   const token = localStorage.getItem('token');
   if (!token) return null;
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  if (payload.exp * 1000 < Date.now()) {
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('Decoded payload:', payload); // Debugging statement
+    if (payload.exp < Date.now() / 1000) {
+      localStorage.removeItem('token');
+      return null;
+    }
+    return token;
+  } catch (e) {
+    console.error('Error decoding token:', e); // Debugging statement
     localStorage.removeItem('token');
     return null;
   }
-  return token;
+}
+
+export function setToken(token) {
+  localStorage.setItem('token', token);
+}
+
+export function removeToken() {
+  localStorage.removeItem('token');
 }
