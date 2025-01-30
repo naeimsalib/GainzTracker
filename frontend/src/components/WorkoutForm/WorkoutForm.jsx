@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getExercises } from "../../services/exerciseService";
-import { addExercisesToWorkout, getWorkout } from "../../services/workoutService";
+import { addExercisesToWorkout } from "../../services/workoutService";
 import "./WorkoutForm.css";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -48,13 +48,11 @@ export default function WorkoutForm({ handleSubmit, initialData }) {
   }
 
   async function handleAddExercises() {
-    console.log("Adding exercises:", selectedExercises);
     try {
       await addExercisesToWorkout(initialData._id, selectedExercises);
-      const updatedWorkout = await getWorkout(initialData._id);
       setFormData((prevData) => ({
         ...prevData,
-        exercises: updatedWorkout.exercises,
+        exercises: [...prevData.exercises, ...selectedExercises],
       }));
       setSelectedExercises([]);
     } catch (err) {

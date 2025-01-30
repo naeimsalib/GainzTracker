@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
+import WorkoutDay from "../../components/WorkoutDay/WorkoutDay";
 import "./WorkoutPage.css";
 import {
   getWorkouts,
@@ -8,6 +8,16 @@ import {
   shareWorkout,
   unshareWorkout,
 } from "../../services/workoutService";
+
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState([]);
@@ -55,28 +65,29 @@ export default function WorkoutPage() {
     navigate(`/workouts/${workoutId}/edit`);
   }
 
+  function handleAddWorkout(day) {
+    navigate(`/workouts/new?day=${day}`);
+  }
+
+  const workoutsByDay = daysOfWeek.map((day) => {
+    const workout = workouts.find((workout) => workout.dayOfWeek === day);
+    return (
+      <WorkoutDay
+        key={day}
+        day={day}
+        workout={workout}
+        onAddWorkout={handleAddWorkout}
+        onDelete={handleDelete}
+        onShare={handleShare}
+        onEdit={handleEdit}
+      />
+    );
+  });
+
   return (
     <div className="workout-page">
-      <div className="workout-header">
-        <h2>Your Workouts</h2>
-      </div>
-      
-      {workouts.length > 0 ? (
-        <div className="workout-grid">
-          {workouts.map((workout) => (
-            <WorkoutCard
-              key={workout._id}
-              workout={workout}
-              onDelete={handleDelete}
-              onShare={handleShare}
-              onEdit={handleEdit}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="no-workouts-message">No workouts found.</p>
-      )}
+      <h2>Your Workouts</h2>
+      <div className="workout-grid">{workoutsByDay}</div>
     </div>
   );
-  
 }

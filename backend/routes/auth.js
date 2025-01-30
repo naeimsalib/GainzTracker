@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const rateLimit = require('express-rate-limit');
 const authCtrl = require('../controllers/auth');
 
-// Rate limiter for login attempts
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit to 5 login attempts
-  message: 'Too many login attempts, please try again later.',
-});
+// All paths start with '/api/auth'
 
-// Signup & Login
+// POST /api/auth/signup
 router.post('/signup', authCtrl.signUp);
-router.post('/login', authLimiter, authCtrl.login);
+// POST /api/auth/login
+router.post('/login', authCtrl.login);
 
 module.exports = router;

@@ -1,39 +1,34 @@
+import React from "react";
+import PropTypes from "prop-types";
+import WorkoutCard from "../WorkoutCard/WorkoutCard";
 import "./WorkoutDay.css";
-import { useNavigate } from "react-router-dom";
 
-export default function WorkoutDay({ day, workout, onAdd, onEdit, onDelete }) {
-  const navigate = useNavigate();
-
+export default function WorkoutDay({ day, workout, onAddWorkout, onDelete, onShare, onEdit }) {
   return (
-    <div className="workout-day">
-      <h2>{day}</h2>
-
+    <div className="day-column">
+      <h3>{day}</h3>
       {workout ? (
-        <div className="workout-card">
-          <h3 className="workout-title">{workout.title}</h3>
-          <p><strong>Type:</strong> {workout.workoutType}</p>
-          <p><strong>Duration:</strong> {workout.duration} mins</p>
-          
-          <div className="workout-actions">
-            <button className="edit-btn" onClick={() => onEdit(workout._id)}>Edit</button>
-            <button className="delete-btn" onClick={() => onDelete(workout._id)}>Delete</button>
-
-            {/* ✅ Added "Add Exercises" Button */}
-            <button
-              className="add-exercise-btn"
-              onClick={() => navigate(`/workouts/${workout._id}/add-exercises`)}
-            >
-              Add Exercises
-            </button>
-          </div>
-        </div>
+        <WorkoutCard
+          workout={workout}
+          onDelete={onDelete}
+          onShare={onShare}
+          onEdit={onEdit}
+        />
       ) : (
-        <p className="no-workout-text">No workout assigned.</p>
-      )}
-
-      {!workout && (
-        <button className="add-btn" onClick={() => onAdd(day)}>Add Workout</button>
+        <div className="rest-day">
+          <p>Rest day</p>
+          <button onClick={() => onAddWorkout(day)}>Add Workout</button>
+        </div>
       )}
     </div>
   );
 }
+
+WorkoutDay.propTypes = {
+  day: PropTypes.string.isRequired,
+  workout: PropTypes.object,
+  onAddWorkout: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onShare: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+};
