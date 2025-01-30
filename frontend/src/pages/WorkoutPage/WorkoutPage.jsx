@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import WorkoutCard from "../../components/WorkoutCard/WorkoutCard";
 import "./WorkoutPage.css";
 import {
@@ -8,18 +9,9 @@ import {
   unshareWorkout,
 } from "../../services/workoutService";
 
-const daysOfWeek = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadWorkouts() {
@@ -36,9 +28,7 @@ export default function WorkoutPage() {
   async function handleDelete(workoutId) {
     try {
       await deleteWorkout(workoutId);
-      setWorkouts((prevWorkouts) =>
-        prevWorkouts.filter((workout) => workout._id !== workoutId)
-      );
+      setWorkouts((prev) => prev.filter((workout) => workout._id !== workoutId));
     } catch (err) {
       console.error("Error deleting workout:", err);
     }
@@ -51,11 +41,9 @@ export default function WorkoutPage() {
       } else {
         await unshareWorkout(workoutId);
       }
-      setWorkouts((prevWorkouts) =>
-        prevWorkouts.map((workout) =>
-          workout._id === workoutId
-            ? { ...workout, sharedWithCommunity: isShared }
-            : workout
+      setWorkouts((prev) =>
+        prev.map((workout) =>
+          workout._id === workoutId ? { ...workout, sharedWithCommunity: isShared } : workout
         )
       );
     } catch (err) {
@@ -64,36 +52,33 @@ export default function WorkoutPage() {
   }
 
   function handleEdit(workoutId) {
-    // Implement the edit functionality here
-    console.log(`Edit workout with ID: ${workoutId}`);
+    navigate(`/workouts/${workoutId}/edit`);
   }
-
-  const workoutsByDay = daysOfWeek.map((day) => {
-    const workout = workouts.find((workout) => workout.dayOfWeek === day);
-    return (
-      <div key={day} className="day-column">
-        <h3>{day}</h3>
-        {workout ? (
-          <WorkoutCard
-            key={workout._id}
-            workout={workout}
-            onDelete={handleDelete}
-            onShare={handleShare}
-            onEdit={handleEdit}
-          />
-        ) : (
-          <div className="rest-day">
-            <p>Rest day</p>
-          </div>
-        )}
-      </div>
-    );
-  });
 
   return (
     <div className="workout-page">
-      <h2>Your Workouts</h2>
-      <div className="workout-grid">{workoutsByDay}</div>
+      <div className="workout-header">
+        <h2>Your Workouts</h2>
+        <button className="add-workout-btn" onClick={() => navigate("/workouts/new")}>
+          + Add Workout
+        </button>
+      </div>
+
+      <div className="workout-grid">
+        {workouts.length > 0 ? (
+          workouts.map((workout) => (
+            <WorkoutCard
+              key={workout._id}
+              workout={workout}
+              onDelete={handleDelete}
+              onShare={handleShare}
+              onEdit={handleEdit}
+            />
+          ))
+        ) : (
+          <p className="no-workouts-message">No workouts found. Start by adding one!</p>
+        )}
+      </div>
     </div>
   );
 }
