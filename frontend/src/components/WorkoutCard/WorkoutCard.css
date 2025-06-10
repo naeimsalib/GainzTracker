@@ -1,92 +1,185 @@
 .workout-card {
-  background: rgb(191, 189, 189);
-  padding: 50px;
-  border-radius: 20px;
-  box-shadow: 10px 14px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 350px;
-  text-align: center;
-  position: relative;
-  transition: transform 0.2s ease-in-out;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
   cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .workout-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.workout-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
 }
 
 .workout-title {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.workout-details {
-  font-size: 1rem;
-  color: #333;
-  text-align: left;
-  margin-top: 10px;
-  border-top: 10px solid #e0e0e0;
-  padding-top: 10px;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
 }
 
 .workout-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+  gap: var(--spacing-sm);
 }
 
-.workout-actions button {
-  flex: 1;
-  padding: 8px;
+.action-btn {
+  background: none;
   border: none;
-  border-radius: 5px;
+  padding: var(--spacing-sm);
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: 0.3s ease;
+  border-radius: var(--radius-full);
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--primary-color);
+}
+
+.delete-btn:hover {
+  color: var(--danger-color);
+}
+
+.workout-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+}
+
+.info-item i {
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
+}
+
+.exercise-list {
+  margin-top: var(--spacing-lg);
+}
+
+.exercise-list h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+
+.exercise-list h4 i {
+  color: var(--primary-color);
+}
+
+.exercise-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exercise-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-sm);
+  transition: all 0.2s ease;
+}
+
+.exercise-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.exercise-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.exercise-details {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.no-exercises {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.workout-footer {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  justify-content: flex-end;
 }
 
 .share-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.share-btn:hover {
   background-color: var(--primary-color);
   color: white;
 }
 
-.unshare-btn {
-  background-color: var(--secondary-color);
+.share-btn.shared {
+  background-color: var(--success-color);
   color: white;
 }
 
-.edit-btn {
-  background-color: #ffa500;
-  color: white;
+.share-btn.shared:hover {
+  background-color: var(--danger-color);
 }
 
-.delete-btn {
-  background-color: red;
-  color: white;
-}
+@media (max-width: 640px) {
+  .workout-card {
+    padding: var(--spacing-md);
+  }
 
-.workout-actions button:hover {
-  opacity: 0.8;
-}
+  .workout-info {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
 
-/* Delete Button */
-.delete-btn {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: red;
-  color: white;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background: darkred;
+  .exercise-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
 }

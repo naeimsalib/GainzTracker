@@ -32,38 +32,74 @@ export default function WorkoutCard({ workout, onEdit, onDelete, onShare }) {
 
   return (
     <div className="workout-card" onClick={() => navigate(`/workouts/${workout._id}`)}>
-      <button className="delete-btn" onClick={(e) => { e.stopPropagation(); onDelete(workout._id); }}>X</button>
-      <h3 className="workout-title">{workout.title}</h3>
-      <p><strong>Day:</strong> {workout.dayOfWeek}</p>
-      <p><strong>Type:</strong> {workout.workoutType}</p>
-      <p><strong>Duration:</strong> {workout.duration} mins</p>
+      <div className="workout-card-header">
+        <h3 className="workout-title">{workout.title}</h3>
+        <div className="workout-actions">
+          <button 
+            className="action-btn edit-btn" 
+            onClick={(e) => { e.stopPropagation(); onEdit(workout._id); }}
+            aria-label="Edit workout"
+          >
+            <i className="fas fa-edit"></i>
+          </button>
+          <button 
+            className="action-btn delete-btn" 
+            onClick={(e) => { e.stopPropagation(); onDelete(workout._id); }}
+            aria-label="Delete workout"
+          >
+            <i className="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
 
-      {/* Display exercises if available */}
+      <div className="workout-info">
+        <div className="info-item">
+          <i className="fas fa-calendar-day"></i>
+          <span>{workout.dayOfWeek}</span>
+        </div>
+        <div className="info-item">
+          <i className="fas fa-dumbbell"></i>
+          <span>{workout.workoutType}</span>
+        </div>
+        <div className="info-item">
+          <i className="fas fa-clock"></i>
+          <span>{workout.duration} mins</span>
+        </div>
+      </div>
+
       {workout.exercises && workout.exercises.length > 0 ? (
         <div className="exercise-list">
-          <h4>Exercises:</h4>
+          <h4>
+            <i className="fas fa-list"></i>
+            Exercises
+          </h4>
           <ul>
             {workout.exercises.map((exercise) => (
-              <li key={exercise._id}>
-                <strong>{exercise.name}</strong> - {exercise.sets} sets of {exercise.reps} reps
+              <li key={exercise._id} className="exercise-item">
+                <span className="exercise-name">{exercise.name}</span>
+                <span className="exercise-details">
+                  {exercise.sets} sets × {exercise.reps} reps
+                </span>
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p>No exercises found.</p>
+        <p className="no-exercises">
+          <i className="fas fa-info-circle"></i>
+          No exercises added yet
+        </p>
       )}
 
-      <button
-        className={workout.sharedWithCommunity ? "unshare-btn" : "share-btn"}
-        onClick={workout.sharedWithCommunity ? handleUnshare : handleShare}
-      >
-        {workout.sharedWithCommunity ? "Unshare" : "Share"}
-      </button>
-
-      <button className="edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(workout._id); }}>
-        Edit
-      </button>
+      <div className="workout-footer">
+        <button
+          className={`share-btn ${workout.sharedWithCommunity ? 'shared' : ''}`}
+          onClick={workout.sharedWithCommunity ? handleUnshare : handleShare}
+        >
+          <i className={`fas fa-${workout.sharedWithCommunity ? 'share-alt' : 'share'}`}></i>
+          {workout.sharedWithCommunity ? 'Shared' : 'Share'}
+        </button>
+      </div>
     </div>
   );
 }
